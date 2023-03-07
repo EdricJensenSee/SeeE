@@ -11,7 +11,7 @@ struct records {
 	cChoice cChoice1, cChoice2, cChoice3, cAnswer;
 };
 
-void providedRecords (struct records *cRecords){
+void providedRecords (struct records* cRecords){
 	strcpy (cRecords[0].fTopic1, "Geography");
 	strcpy (cRecords[0].cQuestion1, "The Sudd area of Southern Sudan is traversed by which of the following rivers?");
 	strcpy (cRecords[0].cChoice1, "Niger");
@@ -70,7 +70,7 @@ int pPassValid (){
 	}
 	return 1;
 }
-int mData(struct records *cRecords){
+int mData(struct records* cRecords){
 	int nAct;
 	if (pPassValid() == 1)
 	printf("[1] Add a record\n[2] Edit a record\n[3] Delete a record\n[4]Import data\n\nInput direction of activity: ");
@@ -92,7 +92,7 @@ void pPlay(){
 int main (){
 struct records cRecords[20];
 if (menu() == 1)
-mData(&cRecords[]);
+mData(&cRecords[20]);
 else if (menu() == 2)
 pPlay();
 else if (menu() == 3)
