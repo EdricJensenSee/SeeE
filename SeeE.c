@@ -11,7 +11,7 @@ struct records {
 	cChoice cChoice1, cChoice2, cChoice3, cAnswer;
 };
 
-void providedRecords (struct records* cRecords){
+void providedRecords (struct records cRecords[]){
 	strcpy (cRecords[0].fTopic1, "Geography");
 	strcpy (cRecords[0].cQuestion1, "The Sudd area of Southern Sudan is traversed by which of the following rivers?");
 	strcpy (cRecords[0].cChoice1, "Niger");
@@ -30,24 +30,27 @@ void providedRecords (struct records* cRecords){
 	strcpy (cRecords[2].cChoice2, "London House");
 	strcpy (cRecords[2].cChoice3, "Victory Mansions");
 	
+	
 }
 
 
 int menu (){
 int nChoice, nInvalid = 1;
 printf("[1] Manage Data as an admin\[2] Play as a player\n[3) Exit Program\n\nInput your choice: ");
-scanf("%d",&nChoice);
-if (nChoice == 1 && nChoice == 2 && nChoice == 3)
-	nInvalid = 0;
+scanf("%d", &nChoice);
+if (nChoice == 1 || nChoice == 2 || nChoice == 3){
+	system("cls");
+	return nChoice;
+}
 while (nInvalid=1){
 	printf("Input valid input");
 	scanf("%d", &nChoice);
 	
-if (nChoice == 1 && nChoice == 2 && nChoice == 3)
-	nInvalid = 0;
+if (nChoice == 1 || nChoice == 2 || nChoice == 3){
+	system("cls");
+	return nChoice;
 }
-system("cls");
-return nChoice;
+}
 }
 
 int pPassValid (){
@@ -70,13 +73,24 @@ int pPassValid (){
 	}
 	return 1;
 }
-int mData(struct records* cRecords){
-	int nAct;
+int mData(struct records cRecords[]){
+	int nAct, i=0;
+	char ch;
+	cQuestion strInput;
 	if (pPassValid() == 1)
 	printf("[1] Add a record\n[2] Edit a record\n[3] Delete a record\n[4]Import data\n\nInput direction of activity: ");
 	scanf("%d",&nAct);
 	if(nAct == 1){
-		
+		printf("Input a question: ");
+		do {
+			scanf(" %c", &ch);
+			if (ch != '\n'){
+				strInput[i] = ch;
+				i++;
+				strInput[i] = '\0';
+			}
+		} while (ch!= '\n' && i < 150);
+		printf("%s",strInput);
 	} else if (nAct == 2){
 		
 	} else {
@@ -91,8 +105,9 @@ void pPlay(){
 
 int main (){
 struct records cRecords[20];
+providedRecords (cRecords);
 if (menu() == 1)
-mData(&cRecords[20]);
+mData(cRecords);
 else if (menu() == 2)
 pPlay();
 else if (menu() == 3)
