@@ -76,7 +76,7 @@ int pPassValid (){
 int mData(struct records cRecords[]){
 	int nAct, i=0;
 	char ch;
-	cQuestion strInput;
+	char strInput [150];
 	if (pPassValid() == 1)
 	printf("[1] Add a record\n[2] Edit a record\n[3] Delete a record\n[4]Import data\n\nInput direction of activity: ");
 	scanf("%d",&nAct);
@@ -84,12 +84,12 @@ int mData(struct records cRecords[]){
 		printf("Input a question: ");
 		do {
 			scanf(" %c", &ch);
-			if (ch != '\n'){
+			if (ch != '/n'){
 				strInput[i] = ch;
 				i++;
 				strInput[i] = '\0';
 			}
-		} while (ch!= '\n' && i < 150);
+		} while (ch!= '/n' && i < 150);
 		printf("%s",strInput);
 	} else if (nAct == 2){
 		
