@@ -16,10 +16,10 @@ struct Account {
 	User Name;
 	User Pass; 
 };
-struct records cRecords[100];
+struct records cRecords[7];
 struct Account cAccount[100];
 
-void Records (struct records cRecords[]){
+void Records (struct records cRecords[], int *quesNumber){
     int i;
     int number = 0;
     char chars[100];
@@ -28,10 +28,10 @@ void Records (struct records cRecords[]){
     for (i=0; fgets(chars, 500, Data); i++){ 
 		if (i<8){
 			if (i%7 == 0){
-	            strcpy(cRecords[number].cNumber, chars);
+	            strcpy(cRecords[number].cTopic1, chars);
 	        }
 	        else if (i%7 == 1){
-	            strcpy(cRecords[number].cTopic1, chars);
+	            strcpy(cRecords[number].cNumber, chars);
 	        }
 	        else if (i%7 == 2) {
 	            strcpy(cRecords[number].cQuestion1, chars);
@@ -73,20 +73,13 @@ void Records (struct records cRecords[]){
 				number++;  
 	        }			
 		}
+			*quesNumber == number;
 		}
-	printf("%s\n", cRecords[0].cNumber);
-	printf("%s\n", cRecords[0].cTopic1);
-    printf("%s\n", cRecords[0].cQuestion1);
-    printf("%s\n", cRecords[0].cChoice1);
-    printf("%s\n", cRecords[0].cChoice2);
-    printf("%s\n", cRecords[0].cChoice3);
 }
-
-
 
 int menu (){
 int nChoice, nInvalid = 1;
-printf("[1] Manage Data as an admin\[2] Play as a player\n[3] Exit Program\n\nInput your choice: ");
+printf("[1] Manage Data as an admin\n[2] Play as a player\n[3] Exit Program\n\nInput your choice: ");
 scanf("%d", &nChoice);
 if (nChoice == 1 || nChoice == 2 || nChoice == 3){
 	system("cls");
@@ -123,26 +116,46 @@ int pPassValid (){
 	}
 	return 1;
 }
+
+int checkRecord(struct records cRecords[], char strInput[], char Answer[]) {
+    int i;
+    for (i = 0; i < 7; i++) {
+        if (strcmp(strInput, cRecords[i].cQuestion1) == 0 && strcmp(Answer, cRecords[i].cAnswer))
+			return 1;
+		else
+			return 0;
+	}
+}
+
+void inputRecord (struct records cRecords[]){
+	cTopic Topic;
+	cChoice Choice1, Choice2, Choice3, Answer;
+		printf("Input the question: ");
+			fgets (strInput, 150, stdin);
+}
+
 int mData(struct records cRecords[]){
 	int nAct, i=0;
-	char ch;
-	char strInput [150];
+	cQuestion strInput; 
+	cChoice Answer;
 	if (pPassValid() == 1)
 	printf("[1] Add a record\n[2] Edit a record\n[3] Delete a record\n[4]Import data\n\nInput direction of activity: ");
-	scanf("%d",&nAct);
+		scanf("%d",&nAct);
 	if(nAct == 1){
+		getchar();
 		printf("Input a question: ");
-do {
-    getchar(); // consume newline character
-    scanf(" %c", &ch);
-} while (ch != '\n');
-		printf("%s",strInput);
+		fgets (strInput, 150, stdin);
+		printf("Input the answer to the question: " );
+		scanf("%s", Answer);
+		if (checkRecord(cRecords, strInput, Answer) == 1)
+			printf("It is already listed");
+		else
+			inputRecord (cRecords);
 	} else if (nAct == 2){
 		
 	} else {
 		
 	}
-	
 }
 
 void pPlay(){
@@ -150,8 +163,8 @@ void pPlay(){
 }
 
 int main (){
-int i;
-Records (cRecords);
+int i, Number;
+Records (cRecords, &Number);
 if (menu() == 1)
 mData(cRecords);
 else if (menu() == 2)
