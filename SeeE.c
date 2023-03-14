@@ -73,48 +73,53 @@ void Records (struct records cRecords[], int *Number){
 				number++;  
 	        }			
 		}
-			*Number = number+1;
+			*Number = number;
 		}
+	fclose(Data);
 }
 
 int menu (){
-int nChoice, nInvalid = 1;
-printf("[1] Manage Data as an admin\n[2] Play as a player\n[3] Exit Program\n\nInput your choice: ");
-scanf("%d", &nChoice);
-if (nChoice == 1 || nChoice == 2 || nChoice == 3){
-	system("cls");
-	return nChoice;
-}
-while (nInvalid==1){
-	printf("Input valid input");
-	scanf("%d", &nChoice);
-	
-if (nChoice == 1 || nChoice == 2 || nChoice == 3){
-	system("cls");
-	return nChoice;
-}
-}
+    int nChoice, nInvalid = 1;
+    printf("[1] Manage Data as an admin\n[2] Play as a player\n[3] Exit Program\n\nInput your choice: ");
+    scanf("%d", &nChoice);
+    if (nChoice == 1 || nChoice == 2 || nChoice == 3){
+        system("cls");
+        nInvalid = 0;
+        return nChoice;
+    }
+    while (nInvalid==1){
+        printf("Input valid input");
+        scanf("%d", &nChoice);
+        
+        if (nChoice == 1 || nChoice == 2 || nChoice == 3){
+            system("cls");
+            nInvalid = 0;
+            return nChoice;
+        }
+    }
 }
 
 int pPassValid (){
-	char cPass[11], cKey[10] = "AdminPass", cAdd[11];
-	int i, j, nAsterisks = 0;
-	cPass[0] = '\0';
-	while (strcmp(cKey,cPass) != 0) {
-		nAsterisks = strlen(cPass);
-		printf("*****Manage Data*****");
-		printf("\nInput Password (9): ");
-		for (j=0; j<nAsterisks; j++)
-			printf("*");
-		scanf("%s", cAdd);
-		strcat(cPass,cAdd);
-		system("cls"); 
-		if (strcmp(cKey,cPass) != 0 && cPass[10] != '\0'){
-			for (i=0; i<11; i++)
-				cPass[i] = '\0';
-		}
-	}
-	return 1;
+    char cPass[11], cKey[10] = "AdminPass", cAdd[11];
+    int i, j, nAsterisks = 0;
+    do {
+    	printf("*****Manage Data*****");
+        printf("\nInput Password (9): ");
+        for (j=0; j<nAsterisks; j++)
+            printf("*");
+        scanf("%s", cAdd);
+        nAsterisks += strlen(cAdd);
+        strcat(cPass,cAdd);
+        system("cls"); 
+		if (strcmp(cKey,cPass) == 0)
+        return 1; 
+        if (strlen(cPass) > 9 && strcmp(cKey,cPass) != 0){
+            for (i=0; i<11; i++)
+                cPass[i] = '\0';
+            nAsterisks = 0;
+        }  
+    } while (strcmp(cKey,cPass) != 0);
+    return 1;
 }
 
 int checkRecord(struct records cRecords[], char strInput[], char Answer[]) {
@@ -125,17 +130,31 @@ int checkRecord(struct records cRecords[], char strInput[], char Answer[]) {
 		else
 			return 0;
 	}
+	return 0;
 }
 
-void inputRecord (struct records cRecords[], int Number){
+void inputRecord (struct records cRecords[], int Number, char strInput[], char Answer[]){
+	cTopic Topic;
+	cChoice Choice1, Choice2, Choice3;
+	FILE *Data;
+    Data = fopen("Data.txt", "a");
+    
 		printf("Input the topic of the problem: ");
-			scanf("%s", cRecords[Number].cTopic1);
+			scanf("%s", Topic);
 		printf("Enter The first choice: ");
-			scanf("%s", cRecords[Number].cChoice1);
+			scanf("%s", Choice1);
 		printf("Enter the second choice: ");
-			scanf("%s", cRecords[Number].cChoice2);
+			scanf("%s", Choice2);
 		printf("%Enter the third choice: ");
-			scanf("%s", cRecords[Number].cChoice3);
+			scanf("%s", Choice3);
+						
+		fprintf(Data, "\n\n%s\n", Topic);
+		fprintf(Data, "%d\n", Number+1);
+		fprintf(Data, "%s", strInput);
+		fprintf(Data, "%s\n%s\n%s\n", Choice1, Choice2, Choice3);
+		fprintf(Data, "%s", Answer);
+		
+	fclose(Data);
 }
 
 int mData(struct records cRecords[], int *Number){
@@ -146,7 +165,6 @@ int mData(struct records cRecords[], int *Number){
 	printf("[1] Add a record\n[2] Edit a record\n[3] Delete a record\n[4]Import data\n\nInput direction of activity: ");
 		scanf("%d",&nAct);
 	if(nAct == 1){
-		getchar();
 		printf("Input a question: ");
 		fgets (strInput, 150, stdin);
 		printf("Input the answer to the question: " );
@@ -154,12 +172,9 @@ int mData(struct records cRecords[], int *Number){
 		if (checkRecord(cRecords, strInput, Answer) == 1)
 			printf("It is already listed");
 		else{
-			strcpy(cRecords[*Number].cQuestion1, strInput);
-			strcpy(cRecords[*Number].cAnswer, Answer);
-			inputRecord (cRecords, *Number);
+			inputRecord (cRecords, *Number, strInput, Answer);
 		}
-			
-	} else if (nAct == 2){
+	} else if (nAct == 2){	
 		
 	} else {
 		
@@ -171,13 +186,14 @@ void pPlay(){
 }
 
 int main (){
-int i, Number; 
-
+int i, Number, menuVal; 
+while (menuVal!=3) {
+menuVal = menu();
 Records (cRecords, &Number);
-if (menu() == 1)
+if (menuVal == 1)
 mData(cRecords, &Number);
-else if (menu() == 2)
+else if (menuVal == 2)
 pPlay();
-else if (menu() == 3)
-return 0;
+system("cls");	
+}
 }
