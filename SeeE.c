@@ -16,44 +16,34 @@ struct Account {
 	User Name;
 	User Pass; 
 };
-struct records cRecords[20];
+struct records cRecords[100];
 struct Account cAccount[100];
 
-void providedRecords (struct records cRecords[]){
+void Records (struct records cRecords[]){
 int i;
-FILE *topics, *questions, *choices1, *choices2, *choices3, *answer;
-topics = fopen("Topic.txt", "r");
-questions = fopen("Questions.txt", "r");
-choices1 = fopen("Choices1.txt", "r");
-choices2 = fopen("Choices2.txt", "r");
-choices3 = fopen("Choices3.txt", "r");
-answer = fopen("Answer.txt", "r");
-
 char chars[100];
-    for (i=0; fscanf(topics, "%[^\n]%*c", chars) == 1; i++){
+FILE *Data;
+Data = fopen("Data.txt", "r");
+
+    for (i=0; fgets(chars, 100, Data); i++){
 		if (i%6 == 0)
 			strcpy(cRecords[i].cTopic1, chars);
-		if (i%6 == 1) 
-			strcpy(cRecords[i].cQuestions, chars);
-		if (i%6 == 2) 
+		else if (i%6 == 1) 
+			strcpy(cRecords[i].cQuestion1, chars);
+		else if (i%6 == 2) 
 			strcpy(cRecords[i].cChoice1, chars);
-		if (i%6 == 3) 
+		else if (i%6 == 3) 
 			strcpy(cRecords[i].cChoice2, chars);
-		if (i%6 == 4) 
+		else if (i%6 == 4) 
 			strcpy(cRecords[i].cChoice3, chars);
-    		
-    		
+		else if (i%6 == 5) 
+			strcpy(cRecords[i].cAnswer, chars);
+		printf("%s", cRecords[i].cTopic1);
+		printf("%s", cRecords[i].cQuestion1);
+		printf("%s", cRecords[i].cChoice1);
+
 	}
-    for (i = 0; fscanf(questions, "%[^\n]%*c", cRecords[i].cQuestion1) == 1; i++) {
-    }
-    for (i = 0; fscanf(choices1, "%[^\n]%*c", cRecords[i].cChoice1) == 1; i++) {
-    }
-    for (i = 0; fscanf(choices2, "%[^\n]%*c", cRecords[i].cChoice2) == 1; i++) {
-    }
-    for (i = 0; fscanf(choices3, "%[^\n]%*c", cRecords[i].cChoice3) == 1; i++) {
-    }
-    for (i = 0; fscanf(answer, "%[^\n]%*c", cRecords[i].cAnswer) == 1; i++) {
-    }
+
 }
 
 
@@ -124,7 +114,7 @@ void pPlay(){
 
 int main (){
 int i;
-	providedRecords (cRecords);
+Records (cRecords);
 if (menu() == 1)
 mData(cRecords);
 else if (menu() == 2)
