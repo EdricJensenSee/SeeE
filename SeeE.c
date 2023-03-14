@@ -86,9 +86,9 @@ int menu (){
         system("cls");
         nInvalid = 0;
         return nChoice;
-    }
+    } 
     while (nInvalid==1){
-        printf("Input valid input");
+        printf("Input valid input: ");
         scanf("%d", &nChoice);
         
         if (nChoice == 1 || nChoice == 2 || nChoice == 3){
@@ -97,13 +97,16 @@ int menu (){
             return nChoice;
         }
     }
+    return 0;
 }
 
+
 int pPassValid (){
-    char cPass[11], cKey[10] = "AdminPass", cAdd[11];
+    char cPass[11] = "", cKey[10] = "AdminPass", cAdd[11];
     int i, j, nAsterisks = 0;
+    fflush(stdin);
     do {
-    	printf("*****Manage Data*****");
+        printf("*****Manage Data*****");
         printf("\nInput Password (9): ");
         for (j=0; j<nAsterisks; j++)
             printf("*");
@@ -111,16 +114,17 @@ int pPassValid (){
         nAsterisks += strlen(cAdd);
         strcat(cPass,cAdd);
         system("cls"); 
-		if (strcmp(cKey,cPass) == 0)
-        return 1; 
-        if (strlen(cPass) > 9 && strcmp(cKey,cPass) != 0){
+        if (strlen(cPass) >= 9) {
+            if (strncmp(cKey, cPass, 9) == 0) {
+                return 1;
+            }
             for (i=0; i<11; i++)
                 cPass[i] = '\0';
             nAsterisks = 0;
-        }  
-    } while (strcmp(cKey,cPass) != 0);
-    return 1;
+        }
+    } while (1);
 }
+
 
 int checkRecord(struct records cRecords[], char strInput[], char Answer[]) {
     int i;
@@ -162,7 +166,7 @@ int mData(struct records cRecords[], int *Number){
 	cQuestion strInput; 
 	cChoice Answer;
 	if (pPassValid() == 1)
-	printf("[1] Add a record\n[2] Edit a record\n[3] Delete a record\n[4]Import data\n\nInput direction of activity: ");
+	printf("[1] Add a record\n[2] Edit a record\n[3] Delete a record\n[4] Import data\n\nInput direction of activity: ");
 		scanf("%d",&nAct);
 	if(nAct == 1){
 		printf("Input a question: ");
