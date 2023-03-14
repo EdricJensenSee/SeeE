@@ -25,8 +25,8 @@ void Records (struct records cRecords[]){
     char chars[100];
     FILE *Data;
     Data = fopen("Data.txt", "r");
-
-    for (i=0; fgets(chars, 100, Data) != NULL; i++){ 
+    for (i=0; fgets(chars, 500, Data); i++){ 
+		if (i<8){
 			if (i%7 == 0){
 	            strcpy(cRecords[number].cNumber, chars);
 	        }
@@ -49,31 +49,33 @@ void Records (struct records cRecords[]){
 	            strcpy(cRecords[number].cAnswer, chars);          
 				number++;  
 	        }
-			if (i%8 == 0 && i != 0){
-		       	if (i%8 == 1){
-		            strcpy(cRecords[number].cNumber, chars);
-		        }
-		        else if (i%8 == 2){
-		            strcpy(cRecords[number].cTopic1, chars);
-		        }
-		        else if (i%8 == 3) {
-		            strcpy(cRecords[number].cQuestion1, chars);
-		        }   
-		        else if (i%8 == 4) {
-		            strcpy(cRecords[number].cChoice1, chars);    
-		        }
-		        else if (i%8 == 5) {
-		            strcpy(cRecords[number].cChoice2, chars);        
-		        }
-		        else if (i%8 == 6) {
-		            strcpy(cRecords[number].cChoice3, chars);            
-		        }
-		        else if (i%8 == 7) {
-		            strcpy(cRecords[number].cAnswer, chars);            
-		        }
-			}
- 		number++;
-    }
+		} else {
+			if (i%8 == 0){
+	            strcpy(cRecords[number].cNumber, chars);
+	        }
+	        else if (i%8 == 1){
+	            strcpy(cRecords[number].cTopic1, chars);
+	        }
+	        else if (i%8 == 2) {
+	            strcpy(cRecords[number].cQuestion1, chars);
+	        }   
+	        else if (i%8 == 3) {
+	            strcpy(cRecords[number].cChoice1, chars);    
+	        }
+	        else if (i%8 == 4) {
+	            strcpy(cRecords[number].cChoice2, chars);        
+	        }
+	        else if (i%8 == 5) {
+	            strcpy(cRecords[number].cChoice3, chars);            
+	        }
+	        else if (i%8 == 6) {
+	            strcpy(cRecords[number].cAnswer, chars);          
+				number++;  
+	        }			
+		}
+		}
+	printf("%s\n", cRecords[0].cNumber);
+	printf("%s\n", cRecords[0].cTopic1);
     printf("%s\n", cRecords[0].cQuestion1);
     printf("%s\n", cRecords[0].cChoice1);
     printf("%s\n", cRecords[0].cChoice2);
