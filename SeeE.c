@@ -19,7 +19,7 @@ struct Account {
 struct records cRecords[7];
 struct Account cAccount[100];
 
-void Records (struct records cRecords[], int *quesNumber){
+void Records (struct records cRecords[], int *Number){
     int i;
     int number = 0;
     char chars[100];
@@ -73,7 +73,7 @@ void Records (struct records cRecords[], int *quesNumber){
 				number++;  
 	        }			
 		}
-			*quesNumber == number;
+			*Number = number+1;
 		}
 }
 
@@ -127,14 +127,18 @@ int checkRecord(struct records cRecords[], char strInput[], char Answer[]) {
 	}
 }
 
-void inputRecord (struct records cRecords[]){
-	cTopic Topic;
-	cChoice Choice1, Choice2, Choice3, Answer;
-		printf("Input the question: ");
-			fgets (strInput, 150, stdin);
+void inputRecord (struct records cRecords[], int Number){
+		printf("Input the topic of the problem: ");
+			scanf("%s", cRecords[Number].cTopic1);
+		printf("Enter The first choice: ");
+			scanf("%s", cRecords[Number].cChoice1);
+		printf("Enter the second choice: ");
+			scanf("%s", cRecords[Number].cChoice2);
+		printf("%Enter the third choice: ");
+			scanf("%s", cRecords[Number].cChoice3);
 }
 
-int mData(struct records cRecords[]){
+int mData(struct records cRecords[], int *Number){
 	int nAct, i=0;
 	cQuestion strInput; 
 	cChoice Answer;
@@ -149,8 +153,12 @@ int mData(struct records cRecords[]){
 		scanf("%s", Answer);
 		if (checkRecord(cRecords, strInput, Answer) == 1)
 			printf("It is already listed");
-		else
-			inputRecord (cRecords);
+		else{
+			strcpy(cRecords[*Number].cQuestion1, strInput);
+			strcpy(cRecords[*Number].cAnswer, Answer);
+			inputRecord (cRecords, *Number);
+		}
+			
 	} else if (nAct == 2){
 		
 	} else {
@@ -163,10 +171,11 @@ void pPlay(){
 }
 
 int main (){
-int i, Number;
+int i, Number; 
+
 Records (cRecords, &Number);
 if (menu() == 1)
-mData(cRecords);
+mData(cRecords, &Number);
 else if (menu() == 2)
 pPlay();
 else if (menu() == 3)
