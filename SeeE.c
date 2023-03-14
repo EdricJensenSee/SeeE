@@ -4,6 +4,8 @@
 typedef char cTopic[20];
 typedef char cChoice[30];
 typedef char cQuestion[150];
+typedef char User[100];
+FILE *topics, *questions, *choices1, *choices2, *choices3, *answer;
 
 struct records {
 	cTopic fTopic1;
@@ -11,26 +13,51 @@ struct records {
 	cChoice cChoice1, cChoice2, cChoice3, cAnswer;
 };
 
+struct Account {
+	User Name;
+	User Pass; 
+};
+struct records cRecords[20];
+struct Account cAccount[100];
+
 void providedRecords (struct records cRecords[]){
-	strcpy (cRecords[0].fTopic1, "Geography");
-	strcpy (cRecords[0].cQuestion1, "The Sudd area of Southern Sudan is traversed by which of the following rivers?");
-	strcpy (cRecords[0].cChoice1, "Niger");
-	strcpy (cRecords[0].cChoice2, "Nile");
-	strcpy (cRecords[0].cChoice3, "The Congo");
-	
-	strcpy (cRecords[1].fTopic1, "Entertainment");
-	strcpy (cRecords[1].cQuestion1, "Which character owns an invisible robot plane?");
-	strcpy (cRecords[1].cChoice1, "Wonder Woman");
-	strcpy (cRecords[1].cChoice2, "Superman");
-	strcpy (cRecords[1].cChoice3, "Thanos");	
-	
-	strcpy (cRecords[2].fTopic1, "Literature");
-	strcpy (cRecords[2].cQuestion1, "In the movie named 1984, what is Winston's apartment called?");
-	strcpy (cRecords[2].cChoice1, "Oceania View");
-	strcpy (cRecords[2].cChoice2, "London House");
-	strcpy (cRecords[2].cChoice3, "Victory Mansions");
-	
-	
+	char chars;
+	int i = 0;
+	topics = fopen("Topics.txt", "r");
+	questions = fopen("Questions.txt", "r");
+	choices1 = fopen("Choices1.txt", "r");
+	choices2 = fopen("Choices2.txt", "r");
+	choices3 = fopen("Choices3.txt", "r");
+	answer = fopen("Answer.txt", "r");
+
+	while (fscanf(topics, "%c", &chars) == 1) {//While there is something scanned
+	strcpy (cRecords[i].fTopic1, chars);	
+	i++;
+	} 
+	i = 0;
+	while (fscanf(questions, "%c", &chars) == 1) { //While there is something scanned
+	strcpy (cRecords[i].cQuestion1, chars);
+	i++; 
+	} 
+	i = 0;
+	while (fscanf(choices1, "%c", &chars) == 1) {//While there is something scanned
+	strcpy (cRecords[i].cChoice1, chars);
+	i++;
+	} i = 0;
+	while (fscanf(choices2, "%c", &chars) == 1) {//While there is something scanned
+	strcpy (cRecords[i].cChoice2, chars);
+	i++;
+	} 
+	i = 0;
+	while (fscanf(choices3, "%c", &chars) == 1) {//While there is something scanned
+	strcpy (cRecords[i].cChoice3, chars);
+	i++;
+	}
+	i = 0;
+	while (fscanf(answer, "%c", &chars) == 1) {//While there is something scanned
+	strcpy (cRecords[i].cAnswer, chars);
+	i++;
+	}
 }
 
 
@@ -82,14 +109,10 @@ int mData(struct records cRecords[]){
 	scanf("%d",&nAct);
 	if(nAct == 1){
 		printf("Input a question: ");
-		do {
-			scanf(" %c", &ch);
-			if (ch != '/n'){
-				strInput[i] = ch;
-				i++;
-				strInput[i] = '\0';
-			}
-		} while (ch!= '/n' && i < 150);
+do {
+    getchar(); // consume newline character
+    scanf(" %c", &ch);
+} while (ch != '\n');
 		printf("%s",strInput);
 	} else if (nAct == 2){
 		
@@ -104,7 +127,9 @@ void pPlay(){
 }
 
 int main (){
-struct records cRecords[20];
+int i;
+for (i=0; i<5; i++)
+	printf("%s", cRecords[i].fTopic1);
 providedRecords (cRecords);
 if (menu() == 1)
 mData(cRecords);
