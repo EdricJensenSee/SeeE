@@ -7,7 +7,7 @@ typedef char cQuestion[150];
 typedef char User[100];
 
 struct records {
-	cTopic cTopic1;
+	cTopic cTopic1, cNumber;
 	cQuestion cQuestion1;
 	cChoice cChoice1, cChoice2, cChoice3, cAnswer;
 };
@@ -20,31 +20,66 @@ struct records cRecords[100];
 struct Account cAccount[100];
 
 void Records (struct records cRecords[]){
-int i;
-char chars[100];
-FILE *Data;
-Data = fopen("Data.txt", "r");
+    int i;
+    int number = 0;
+    char chars[100];
+    FILE *Data;
+    Data = fopen("Data.txt", "r");
 
-    for (i=0; fgets(chars, 100, Data); i++){
-		if (i%6 == 0)
-			strcpy(cRecords[i].cTopic1, chars);
-		else if (i%6 == 1) 
-			strcpy(cRecords[i].cQuestion1, chars);
-		else if (i%6 == 2) 
-			strcpy(cRecords[i].cChoice1, chars);
-		else if (i%6 == 3) 
-			strcpy(cRecords[i].cChoice2, chars);
-		else if (i%6 == 4) 
-			strcpy(cRecords[i].cChoice3, chars);
-		else if (i%6 == 5) 
-			strcpy(cRecords[i].cAnswer, chars);
-		printf("%s", cRecords[i].cTopic1);
-		printf("%s", cRecords[i].cQuestion1);
-		printf("%s", cRecords[i].cChoice1);
-
-	}
-
+    for (i=0; fgets(chars, 100, Data) != NULL; i++){ 
+			if (i%7 == 0){
+	            strcpy(cRecords[number].cNumber, chars);
+	        }
+	        else if (i%7 == 1){
+	            strcpy(cRecords[number].cTopic1, chars);
+	        }
+	        else if (i%7 == 2) {
+	            strcpy(cRecords[number].cQuestion1, chars);
+	        }   
+	        else if (i%7 == 3) {
+	            strcpy(cRecords[number].cChoice1, chars);    
+	        }
+	        else if (i%7 == 4) {
+	            strcpy(cRecords[number].cChoice2, chars);        
+	        }
+	        else if (i%7 == 5) {
+	            strcpy(cRecords[number].cChoice3, chars);            
+	        }
+	        else if (i%7 == 6) {
+	            strcpy(cRecords[number].cAnswer, chars);          
+				number++;  
+	        }
+			if (i%8 == 0 && i != 0){
+		       	if (i%8 == 1){
+		            strcpy(cRecords[number].cNumber, chars);
+		        }
+		        else if (i%8 == 2){
+		            strcpy(cRecords[number].cTopic1, chars);
+		        }
+		        else if (i%8 == 3) {
+		            strcpy(cRecords[number].cQuestion1, chars);
+		        }   
+		        else if (i%8 == 4) {
+		            strcpy(cRecords[number].cChoice1, chars);    
+		        }
+		        else if (i%8 == 5) {
+		            strcpy(cRecords[number].cChoice2, chars);        
+		        }
+		        else if (i%8 == 6) {
+		            strcpy(cRecords[number].cChoice3, chars);            
+		        }
+		        else if (i%8 == 7) {
+		            strcpy(cRecords[number].cAnswer, chars);            
+		        }
+			}
+ 		number++;
+    }
+    printf("%s\n", cRecords[0].cQuestion1);
+    printf("%s\n", cRecords[0].cChoice1);
+    printf("%s\n", cRecords[0].cChoice2);
+    printf("%s\n", cRecords[0].cChoice3);
 }
+
 
 
 int menu (){
