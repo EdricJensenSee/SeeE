@@ -5,10 +5,9 @@ typedef char cTopic[20];
 typedef char cChoice[30];
 typedef char cQuestion[150];
 typedef char User[100];
-FILE *topics, *questions, *choices1, *choices2, *choices3, *answer;
 
 struct records {
-	cTopic fTopic1;
+	cTopic cTopic1;
 	cQuestion cQuestion1;
 	cChoice cChoice1, cChoice2, cChoice3, cAnswer;
 };
@@ -21,55 +20,52 @@ struct records cRecords[20];
 struct Account cAccount[100];
 
 void providedRecords (struct records cRecords[]){
-	char chars;
-	int i = 0;
-	topics = fopen("Topics.txt", "r");
-	questions = fopen("Questions.txt", "r");
-	choices1 = fopen("Choices1.txt", "r");
-	choices2 = fopen("Choices2.txt", "r");
-	choices3 = fopen("Choices3.txt", "r");
-	answer = fopen("Answer.txt", "r");
+int i;
+FILE *topics, *questions, *choices1, *choices2, *choices3, *answer;
+topics = fopen("Topic.txt", "r");
+questions = fopen("Questions.txt", "r");
+choices1 = fopen("Choices1.txt", "r");
+choices2 = fopen("Choices2.txt", "r");
+choices3 = fopen("Choices3.txt", "r");
+answer = fopen("Answer.txt", "r");
 
-	while (fscanf(topics, "%c", &chars) == 1) {//While there is something scanned
-	strcpy (cRecords[i].fTopic1, chars);	
-	i++;
-	} 
-	i = 0;
-	while (fscanf(questions, "%c", &chars) == 1) { //While there is something scanned
-	strcpy (cRecords[i].cQuestion1, chars);
-	i++; 
-	} 
-	i = 0;
-	while (fscanf(choices1, "%c", &chars) == 1) {//While there is something scanned
-	strcpy (cRecords[i].cChoice1, chars);
-	i++;
-	} i = 0;
-	while (fscanf(choices2, "%c", &chars) == 1) {//While there is something scanned
-	strcpy (cRecords[i].cChoice2, chars);
-	i++;
-	} 
-	i = 0;
-	while (fscanf(choices3, "%c", &chars) == 1) {//While there is something scanned
-	strcpy (cRecords[i].cChoice3, chars);
-	i++;
+char chars[100];
+    for (i=0; fscanf(topics, "%[^\n]%*c", chars) == 1; i++){
+		if (i%6 == 0)
+			strcpy(cRecords[i].cTopic1, chars);
+		if (i%6 == 1) 
+			strcpy(cRecords[i].cQuestions, chars);
+		if (i%6 == 2) 
+			strcpy(cRecords[i].cChoice1, chars);
+		if (i%6 == 3) 
+			strcpy(cRecords[i].cChoice2, chars);
+		if (i%6 == 4) 
+			strcpy(cRecords[i].cChoice3, chars);
+    		
+    		
 	}
-	i = 0;
-	while (fscanf(answer, "%c", &chars) == 1) {//While there is something scanned
-	strcpy (cRecords[i].cAnswer, chars);
-	i++;
-	}
+    for (i = 0; fscanf(questions, "%[^\n]%*c", cRecords[i].cQuestion1) == 1; i++) {
+    }
+    for (i = 0; fscanf(choices1, "%[^\n]%*c", cRecords[i].cChoice1) == 1; i++) {
+    }
+    for (i = 0; fscanf(choices2, "%[^\n]%*c", cRecords[i].cChoice2) == 1; i++) {
+    }
+    for (i = 0; fscanf(choices3, "%[^\n]%*c", cRecords[i].cChoice3) == 1; i++) {
+    }
+    for (i = 0; fscanf(answer, "%[^\n]%*c", cRecords[i].cAnswer) == 1; i++) {
+    }
 }
 
 
 int menu (){
 int nChoice, nInvalid = 1;
-printf("[1] Manage Data as an admin\[2] Play as a player\n[3) Exit Program\n\nInput your choice: ");
+printf("[1] Manage Data as an admin\[2] Play as a player\n[3] Exit Program\n\nInput your choice: ");
 scanf("%d", &nChoice);
 if (nChoice == 1 || nChoice == 2 || nChoice == 3){
 	system("cls");
 	return nChoice;
 }
-while (nInvalid=1){
+while (nInvalid==1){
 	printf("Input valid input");
 	scanf("%d", &nChoice);
 	
@@ -128,9 +124,7 @@ void pPlay(){
 
 int main (){
 int i;
-for (i=0; i<5; i++)
-	printf("%s", cRecords[i].fTopic1);
-providedRecords (cRecords);
+	providedRecords (cRecords);
 if (menu() == 1)
 mData(cRecords);
 else if (menu() == 2)
