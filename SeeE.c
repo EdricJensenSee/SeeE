@@ -12,20 +12,31 @@ struct records {
 	cChoice cChoice1, cChoice2, cChoice3, cAnswer;
 };
 
-struct Account {
-	User Name;
-	User Pass; 
-};
-struct records cRecords[7];
-struct Account cAccount[100];
+struct records cRecords[100];
 
-void Records (struct records cRecords[], int *Number){
+void records (struct records cRecords[], int *Number){
+	printf("%s", cRecords[0].cQuestion1);
+	printf("%d", *Number);
+}
+
+int numCount(struct records cRecords[], int *Number) {
+    int i, number = 0;
+    for (i = 0; i < 100; i++) {
+        if (strlen(cRecords[i].cQuestion1) > 0) {
+            number++;
+        }
+    }
+    *Number = number;
+    return number;
+}
+
+void ImportRecords (struct records cRecords[], int *Number){
     int i;
     int number = 0;
-    char chars[100];
+    char chars[150];
     FILE *Data;
     Data = fopen("Data.txt", "r");
-    for (i=0; fgets(chars, 500, Data); i++){ 
+    for (i=0; fgets(chars, 150, Data); i++){ 
 		if (i<8){
 			if (i%7 == 0){
 	            strcpy(cRecords[number].cTopic1, chars);
@@ -47,14 +58,14 @@ void Records (struct records cRecords[], int *Number){
 	        }
 	        else if (i%7 == 6) {
 	            strcpy(cRecords[number].cAnswer, chars);          
-				number++;  
+	            number++;
 	        }
 		} else {
 			if (i%8 == 0){
-	            strcpy(cRecords[number].cNumber, chars);
+	            strcpy(cRecords[number].cTopic1, chars);
 	        }
 	        else if (i%8 == 1){
-	            strcpy(cRecords[number].cTopic1, chars);
+	            strcpy(cRecords[number].cNumber, chars);
 	        }
 	        else if (i%8 == 2) {
 	            strcpy(cRecords[number].cQuestion1, chars);
@@ -73,7 +84,6 @@ void Records (struct records cRecords[], int *Number){
 				number++;  
 	        }			
 		}
-			*Number = number;
 		}
 	fclose(Data);
 }
@@ -115,7 +125,7 @@ int pPassValid (){
         strcat(cPass,cAdd);
         system("cls"); 
         if (strlen(cPass) >= 9) {
-            if (strncmp(cKey, cPass, 9) == 0) {
+            if (strcmp(cKey, cPass) == 0) {
                 return 1;
             }
             for (i=0; i<11; i++)
@@ -149,11 +159,11 @@ void inputRecord (struct records cRecords[], int Number, char strInput[], char A
 			scanf("%s", Choice1);
 		printf("Enter the second choice: ");
 			scanf("%s", Choice2);
-		printf("%Enter the third choice: ");
+		printf("Enter the third choice: ");
 			scanf("%s", Choice3);
 						
 		fprintf(Data, "\n\n%s\n", Topic);
-		fprintf(Data, "%d\n", Number+1);
+		fprintf(Data, "%d", Number+1);
 		fprintf(Data, "%s", strInput);
 		fprintf(Data, "%s\n%s\n%s\n", Choice1, Choice2, Choice3);
 		fprintf(Data, "%s", Answer);
@@ -161,14 +171,69 @@ void inputRecord (struct records cRecords[], int Number, char strInput[], char A
 	fclose(Data);
 }
 
+void editRecord(struct records cRecords[], int *Number) {
+    int nChoice, i, j, nTopicCount = 0, dChoice;
+    cTopic Topic;
+    cQuestion Question;
+	cChoice Choice1, Choice2, Choice3, Answer;
+    char cTopicList[7][20], chars;
+    FILE *Data;
+    Data = fopen("Data.txt", "r");
+
+    printf("Topic list:\n");
+    for (i = 0; i < *Number; i++) {
+        int isUnique = 1;
+        for (j = 0; j < nTopicCount; j++) {
+            if (strcmp(cRecords[i].cTopic1, cTopicList[j]) == 0) {
+                isUnique = 0;
+                break;
+            }
+        }
+        if (isUnique) {
+            strcpy(cTopicList[nTopicCount], cRecords[i].cTopic1);
+            nTopicCount++;
+        }
+    }
+    for (i = 0; i < nTopicCount; i++) {
+        printf("%d. %s", i + 1, cTopicList[i]);
+    }
+    printf("\n");
+    
+    printf("Enter the number of the topic you edit: ");
+    scanf("%d", &dChoice);
+            printf("The current questions for this topic:\n");
+            printf("Do you want to replace this question?\n[1] Yes\n[2] No\n"); 
+            scanf("%d", &nChoice);
+            if (nChoice == 1) {
+                printf("Enter the new question: ");
+                scanf(" %[^\n]s", cRecords[dChoice-1].cQuestion1);
+                printf("Enter the new first choice: ");
+                scanf("%s", cRecords[dChoice-1].cChoice1);
+                printf("Enter the new second choice: ");
+                scanf("%s", cRecords[dChoice-1].cChoice2);
+                printf("Enter the new third choice: ");
+                scanf("%s", cRecords[dChoice-1].cChoice3);
+                printf("Enter the new answer: ");
+                scanf("%s", cRecords[dChoice-1].cAnswer);
+                printf("Question has been replaced.\n");
+            } else {
+                printf("Question not replaced.\n");
+                return;
+    }
+    printf("Topic not found.\n");
+}
+
 int mData(struct records cRecords[], int *Number){
 	int nAct, i=0;
 	cQuestion strInput; 
 	cChoice Answer;
 	if (pPassValid() == 1)
-	printf("[1] Add a record\n[2] Edit a record\n[3] Delete a record\n[4] Import data\n\nInput direction of activity: ");
+	do {
+		printf("[1] Add a record\n[2] Edit a record\n[3] Delete a record\n[4] Import data\n\nInput direction of activity: ");
 		scanf("%d",&nAct);
-	if(nAct == 1){
+		system("cls");
+		getchar();
+		if(nAct == 1){
 		printf("Input a question: ");
 		fgets (strInput, 150, stdin);
 		printf("Input the answer to the question: " );
@@ -179,10 +244,12 @@ int mData(struct records cRecords[], int *Number){
 			inputRecord (cRecords, *Number, strInput, Answer);
 		}
 	} else if (nAct == 2){	
-		
-	} else {
-		
+		editRecord (cRecords, Number);
+	} else if (nAct == 3){
+	} else if (nAct == 4){
+		ImportRecords (cRecords, Number);
 	}
+	} while (nAct < 1 || nAct >4);
 }
 
 void pPlay(){
@@ -190,10 +257,11 @@ void pPlay(){
 }
 
 int main (){
-int i, Number, menuVal; 
+int i, Number = 0, menuVal; 
 while (menuVal!=3) {
+numCount (cRecords, &Number);
+records (cRecords, &Number);
 menuVal = menu();
-Records (cRecords, &Number);
 if (menuVal == 1)
 mData(cRecords, &Number);
 else if (menuVal == 2)
