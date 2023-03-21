@@ -35,7 +35,7 @@ void ImportRecords (struct records cRecords[], int *Number){
     int number = 0;
     char chars[150];
     FILE *Data;
-    Data = fopen("Data.txt", "r");
+    Data = fopen("sample-records.txt", "r");
     for (i=0; fgets(chars, 150, Data); i++){ 
 		if (i<8){
 			if (i%7 == 0){
@@ -150,7 +150,17 @@ int checkRecord(struct records cRecords[], char strInput[], char Answer[]) {
 void inputRecord (struct records cRecords[], int Number, char strInput[], char Answer[]){
 	cTopic Topic;
 	cChoice Choice1, Choice2, Choice3;
-	FILE *Data;
+		printf("Input the topic of the problem: ");
+			scanf("%s", cRecords[Number].cTopic1);
+		printf("Enter The first choice: ");
+			scanf("%s", cRecords[Number].cChoice1);
+		printf("Enter the second choice: ");
+			scanf("%s", cRecords[Number].cChoice2);
+		printf("Enter the third choice: ");
+			scanf("%s", cRecords[Number].cChoice3); 
+			strcpy(cRecords[Number].cQuestion1, strInput);
+			strcpy(cRecords[Number].cAnswer, Answer);
+	/*FILE *Data;
     Data = fopen("Data.txt", "a");
     
 		printf("Input the topic of the problem: ");
@@ -168,15 +178,15 @@ void inputRecord (struct records cRecords[], int Number, char strInput[], char A
 		fprintf(Data, "%s\n%s\n%s\n", Choice1, Choice2, Choice3);
 		fprintf(Data, "%s", Answer);
 		
-	fclose(Data);
+	fclose(Data);*/
 }
 
 void editRecord(struct records cRecords[], int *Number) {
-    int nChoice, i, j, nTopicCount = 0, dChoice;
+    int nChoice, i, j, nTopicCount = 0, dChoice, pChoice;
     cTopic Topic;
     cQuestion Question;
-	cChoice Choice1, Choice2, Choice3, Answer;
-    char cTopicList[7][20], chars;
+    cChoice Choice1, Choice2, Choice3, Answer;
+    char cTopicList[100][20], chars;
     FILE *Data;
     Data = fopen("Data.txt", "r");
 
@@ -195,32 +205,48 @@ void editRecord(struct records cRecords[], int *Number) {
         }
     }
     for (i = 0; i < nTopicCount; i++) {
-        printf("%d. %s", i + 1, cTopicList[i]);
+        printf("%d. %s\n", i + 1, cTopicList[i]);
     }
-    printf("\n");
-    
-    printf("Enter the number of the topic you edit: ");
+    printf("\nEnter the number of the topic you want to edit: ");
     scanf("%d", &dChoice);
-            printf("The current questions for this topic:\n");
-            printf("Do you want to replace this question?\n[1] Yes\n[2] No\n"); 
-            scanf("%d", &nChoice);
-            if (nChoice == 1) {
-                printf("Enter the new question: ");
-                scanf(" %[^\n]s", cRecords[dChoice-1].cQuestion1);
-                printf("Enter the new first choice: ");
-                scanf("%s", cRecords[dChoice-1].cChoice1);
-                printf("Enter the new second choice: ");
-                scanf("%s", cRecords[dChoice-1].cChoice2);
-                printf("Enter the new third choice: ");
-                scanf("%s", cRecords[dChoice-1].cChoice3);
-                printf("Enter the new answer: ");
-                scanf("%s", cRecords[dChoice-1].cAnswer);
-                printf("Question has been replaced.\n");
-            } else {
-                printf("Question not replaced.\n");
-                return;
+    
+    printf("Questions for topic:\n", cTopicList[dChoice-1]);
+    int foundQuestions = 0;
+    for (i = 0; i < *Number; i++) {
+        if (strcmp(cRecords[i].cTopic1, cTopicList[dChoice-1]) == 0) {
+            printf("- %s\n", cRecords[i].cQuestion1);
+            foundQuestions = 1;
+        }
     }
-    printf("Topic not found.\n");
+    if (!foundQuestions) {
+        printf("No questions found for topic '%s'.\n", cTopicList[dChoice-1]);
+        return;
+    }
+
+    printf("\nDo you want to replace a question?\n[1] Yes\n[2] No\n"); 
+    scanf("%d", &nChoice);
+    if (nChoice == 1) {
+        printf("Enter the number of the question to replace: ");
+        scanf("%d", &dChoice);
+        if (dChoice < 1 || dChoice > *Number) {
+            printf("Invalid question number.\n");
+            return;
+        }
+        printf("Enter the new question: ");
+        scanf(" %[^\n]s", cRecords[dChoice-1].cQuestion1);
+        printf("Enter the new first choice: ");
+        scanf("%s", cRecords[dChoice-1].cChoice1);
+        printf("Enter the new second choice: ");
+        scanf("%s", cRecords[dChoice-1].cChoice2);
+        printf("Enter the new third choice: ");
+        scanf("%s", cRecords[dChoice-1].cChoice3);
+        printf("Enter the new answer: ");
+        scanf("%s", cRecords[dChoice-1].cAnswer);
+        printf("Question has been replaced.\n");
+    } else {
+        printf("Question not replaced.\n");
+        return;
+    }
 }
 
 int mData(struct records cRecords[], int *Number){
