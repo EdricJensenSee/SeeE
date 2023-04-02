@@ -162,7 +162,7 @@ void inputRecord (struct records cRecords[], int Number, char strInput[], char A
 			scanf("%s", cRecords[Number].cChoice3); 
 			strcpy(cRecords[Number].cQuestion1, strInput);
 			strcpy(cRecords[Number].cAnswer, Answer);
-	/*FILE *Data;
+	/*FILE *Data;1
     Data = fopen("Data.txt", "a");
     
 		printf("Input the topic of the problem: ");
@@ -184,110 +184,138 @@ void inputRecord (struct records cRecords[], int Number, char strInput[], char A
 }
 
 void editRecord(struct records cRecords[], int *Number) {
-    int nChoice, i = 0, j = 0, nTopicCount = 0, dChoice, pChoice, nLoc;
-    cTopic Topic;
-    cQuestion Question;
-    cChoice Choice1, Choice2, Choice3, Answer;
-    char cTopicList[100][20], chars;
+	int i, j, choice = '\0', recordNum, fieldNum, topicNum, matchingTopics[100], matchingRecords[100], numMatches = 0;;
+	int topicCount = 0, currNum = 1;
+    char topic[20];
 
-    printf("Topic list:\n");
-    for (i = 0; i < *Number; i++) {
-        int isUnique = 1;
-        for (j = 0; j < nTopicCount; j++) {
-            if (strcmp(cRecords[i].cTopic1, cTopicList[j]) == 0) {
-                isUnique = 0;
-                break;
-            }
-        }
-        if (isUnique) {
-            strcpy(cTopicList[nTopicCount], cRecords[i].cTopic1);
-            nTopicCount++;
+printf("Available Topics:\n");
+for (i = 0; i < *Number; i++) {
+    int isUnique = 1;
+    for (j = i - 1; j >= 0; j--) {
+        if (strcmp(cRecords[i].cTopic1, cRecords[j].cTopic1) == 0) {
+            isUnique = 0;
+            break;
         }
     }
-    for (i = 0; i < nTopicCount; i++) {
-        printf("%d. %s\n", i + 1, cTopicList[i]);
+    if (isUnique) {
+        matchingTopics[numMatches++] = i;
+        printf("[%d] %s\n", currNum, cRecords[i].cTopic1);
+        currNum++;
     }
-    printf("\nEnter the number of the topic you want to edit: ");
-    scanf("%d", &dChoice);
-    
-    printf("Questions for topic %s:\n", cTopicList[dChoice-1]);
-    int foundQuestions = 0;
-    for (i = 0; i < *Number; i++) {
-        if (strcmp(cRecords[i].cTopic1, cTopicList[dChoice-1]) == 0) {
-            printf("%d - %s\n", i+1 , cRecords[i].cQuestion1);
-            foundQuestions = 1;
-        }
+}
+
+printf("Choose a topic to edit (enter the number): ");
+scanf("%d", &topicNum);
+
+topicNum = matchingTopics[topicNum - 1];
+
+numMatches = 0;
+for (i = 0; i < *Number; i++) {
+    if (strcmp(cRecords[i].cTopic1, cRecords[topicNum].cTopic1) == 0) {
+        matchingRecords[numMatches++] = i;
     }
-    if (!foundQuestions) {
-        printf("No questions found for the selected topic.\n");
-        return;
-    }
-    printf("Enter the number of the question to replace: ");
-    scanf("%d", &dChoice);
-    if (dChoice < 1 || dChoice > *Number) {
-        printf("Invalid question number.\n");
-        return;
-    }
-    for (i = 0; i< *Number; i++){
-    	if (strcmp(cRecords[i].cQuestion1, cRecords[dChoice].cQuestion1) == 0)
-    		nLoc = i;	
-	}
-    printf("Which field do you want to edit for the record?\n[1]Topic\n[2]Question\n[3]First Choice\n[4]Second Choice\n[5]Third Choice\n[6]Answer\n\n");
-    scanf("%d", &pChoice);
-    switch (pChoice) {
-        case 1:
-            printf("Enter the new topic: ");
-            scanf(" %[^\n]s\n", cRecords[nLoc].cTopic1);
-            break;
-        case 2:
-            printf("Enter the new question: ");
-            scanf(" %[^\n]s\n", cRecords[nLoc].cQuestion1);
-            break;
-        case 3:
-            printf("Enter the new first choice: ");
-            scanf("%s\n", cRecords[nLoc].cChoice1);
-            break;
-        case 4:
-            printf("Enter the new second choice: ");
-            scanf("%s\n", cRecords[nLoc].cChoice2);
-            break;
-        case 5:
-            printf("Enter the new third choice: ");
-            scanf("%s\n", cRecords[nLoc].cChoice3);
-            break;
-        case 6:
-            printf("Enter the new answer: ");
-            scanf("%s\n", cRecords[nLoc].cAnswer);
-            break;
-        default:
-            printf("Invalid choice.\n");
-            break;
-    }
+}
+
+printf("\nRecords in %s\n", cRecords[topicNum].cTopic1);
+for (i = 0; i < numMatches; i++) {
+    printf("[%d] %s\n", i+1, cRecords[matchingRecords[i]].cQuestion1);
+}
+
+printf("Choose a record to edit: ");
+scanf("%d", &choice);
+recordNum = matchingRecords[choice - 1];
+
+printf("\nCurrent Record:\n");
+printf("Topic: %s\n", cRecords[recordNum].cTopic1);
+printf("Question: %s\n", cRecords[recordNum].cQuestion1);
+printf("Choice 1: %s\n", cRecords[recordNum].cChoice1);
+printf("Choice 2: %s\n", cRecords[recordNum].cChoice2);
+printf("Choice 3: %s\n", cRecords[recordNum].cChoice3);
+printf("Answer: %s\n\n", cRecords[recordNum].cAnswer);
+
+
+printf("Which field do you want to modify?\n");
+printf("[1] Topic\n");
+printf("[2] Question\n");
+printf("[3] Choice 1\n");
+printf("[4] Choice 2\n");
+printf("[5] Choice 3\n");
+printf("[6] Answer\n");
+printf("Enter field number: ");
+scanf("%d", &fieldNum);
+
+char newValue[150];
+printf("Enter new value: ");
+scanf(" %[^\n]", newValue);
+
+switch (fieldNum) {
+    case 1:
+        strcpy(cRecords[recordNum].cTopic1, newValue);
+        break;
+    case 2:
+        strcpy(cRecords[recordNum].cQuestion1, newValue);
+        break;
+    case 3:
+        strcpy(cRecords[recordNum].cChoice1, newValue);
+    case 4:
+         strcpy(cRecords[recordNum].cChoice2, newValue);
+        break;
+    case 5:
+		strcpy(cRecords[recordNum].cChoice3, newValue);
+        break;
+    case 6:
+		strcpy(cRecords[recordNum].cAnswer, newValue);
+        break;
+    default:
+        printf("Invalid choice.\n");
+        break;
+}
 }
 
 void deleteRecord(struct records cRecords[], int *Number) {
     char strInput[150], strNumber[10];
     int i, j, x, cChoice, cChoice2, nConfirm, nDel = -1;
-    printf("\nAvailable Topics:\n");
-    for (i = 0; i < *Number; i++) {
-        for (j = 0; j < i; j++) {
-            if (strcmp(cRecords[i].cTopic1, cRecords[j].cTopic1) == 0) {
-                break;
-            }
-        }
-        if (i == j) {
-            printf("%d - %s\n", x+1 , cRecords[i].cTopic1);
-            x++;
-        }
-    }
-    printf("\nInput topic: ");
-    scanf("%d", &cChoice);
-    printf("\nList of questions for the topic:\n");
-    for (i = 0; i < *Number; i++) {
-        if (strcmp(cRecords[cChoice-1].cTopic1, cRecords[i].cTopic1) == 0) {
-            printf("%d - %s\n", i+1 , cRecords[i].cQuestion1);
+    	int i, j, choice = '\0', recordNum, fieldNum, topicNum, matchingTopics[100], matchingRecords[100], numMatches = 0;;
+	int topicCount = 0, currNum = 1;
+    char topic[20];
+
+printf("Available Topics:\n");
+for (i = 0; i < *Number; i++) {
+    int isUnique = 1;
+    for (j = i - 1; j >= 0; j--) {
+        if (strcmp(cRecords[i].cTopic1, cRecords[j].cTopic1) == 0) {
+            isUnique = 0;
+            break;
         }
     }
+    if (isUnique) {
+        matchingTopics[numMatches++] = i;
+        printf("[%d] %s\n", currNum, cRecords[i].cTopic1);
+        currNum++;
+    }
+}
+
+printf("Choose a topic to delete: ");
+scanf("%d", &topicNum);
+
+topicNum = matchingTopics[topicNum - 1];
+
+numMatches = 0;
+for (i = 0; i < *Number; i++) {
+    if (strcmp(cRecords[i].cTopic1, cRecords[topicNum].cTopic1) == 0) {
+        matchingRecords[numMatches++] = i;
+    }
+}
+
+printf("\nRecords in %s\n", cRecords[topicNum].cTopic1);
+for (i = 0; i < numMatches; i++) {
+    printf("[%d] %s\n", i+1, cRecords[matchingRecords[i]].cQuestion1);
+}
+
+printf("Choose a record to edit: ");
+scanf("%d", &choice);
+recordNum = matchingRecords[choice - 1];
+
     printf("\nInput question number to delete: ");
     scanf("%d", &cChoice2);
     for (i = 0; i < *Number; i++) {
