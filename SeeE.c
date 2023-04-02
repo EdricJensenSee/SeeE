@@ -33,9 +33,11 @@ int numCount(struct records cRecords[], int *Number) {
 void ImportRecords (struct records cRecords[], int *Number){
     int i;
     int number = 0;
-    char chars[150];
+    char chars[150], fileName[50];
     FILE *Data;
-    Data = fopen("sample-records.txt", "r");
+    printf("Input file");
+    scanf("%s", fileName);
+    Data = fopen(fileName, "r");
     for (i=0; fgets(chars, 150, Data); i++){ 
 		if (i<8){
 			if (i%7 == 0){
@@ -182,13 +184,11 @@ void inputRecord (struct records cRecords[], int Number, char strInput[], char A
 }
 
 void editRecord(struct records cRecords[], int *Number) {
-    int nChoice, i, j, nTopicCount = 0, dChoice, pChoice;
+    int nChoice, i = 0, j = 0, nTopicCount = 0, dChoice, pChoice, nLoc;
     cTopic Topic;
     cQuestion Question;
     cChoice Choice1, Choice2, Choice3, Answer;
     char cTopicList[100][20], chars;
-    FILE *Data;
-    Data = fopen("Data.txt", "r");
 
     printf("Topic list:\n");
     for (i = 0; i < *Number; i++) {
@@ -210,44 +210,122 @@ void editRecord(struct records cRecords[], int *Number) {
     printf("\nEnter the number of the topic you want to edit: ");
     scanf("%d", &dChoice);
     
-    printf("Questions for topic:\n", cTopicList[dChoice-1]);
+    printf("Questions for topic %s:\n", cTopicList[dChoice-1]);
     int foundQuestions = 0;
     for (i = 0; i < *Number; i++) {
         if (strcmp(cRecords[i].cTopic1, cTopicList[dChoice-1]) == 0) {
-            printf("- %s\n", cRecords[i].cQuestion1);
+            printf("%d - %s\n", i+1 , cRecords[i].cQuestion1);
             foundQuestions = 1;
         }
     }
     if (!foundQuestions) {
-        printf("No questions found for topic '%s'.\n", cTopicList[dChoice-1]);
+        printf("No questions found for the selected topic.\n");
         return;
     }
-
-    printf("\nDo you want to replace a question?\n[1] Yes\n[2] No\n"); 
-    scanf("%d", &nChoice);
-    if (nChoice == 1) {
-        printf("Enter the number of the question to replace: ");
-        scanf("%d", &dChoice);
-        if (dChoice < 1 || dChoice > *Number) {
-            printf("Invalid question number.\n");
-            return;
-        }
-        printf("Enter the new question: ");
-        scanf(" %[^\n]s", cRecords[dChoice-1].cQuestion1);
-        printf("Enter the new first choice: ");
-        scanf("%s", cRecords[dChoice-1].cChoice1);
-        printf("Enter the new second choice: ");
-        scanf("%s", cRecords[dChoice-1].cChoice2);
-        printf("Enter the new third choice: ");
-        scanf("%s", cRecords[dChoice-1].cChoice3);
-        printf("Enter the new answer: ");
-        scanf("%s", cRecords[dChoice-1].cAnswer);
-        printf("Question has been replaced.\n");
-    } else {
-        printf("Question not replaced.\n");
+    printf("Enter the number of the question to replace: ");
+    scanf("%d", &dChoice);
+    if (dChoice < 1 || dChoice > *Number) {
+        printf("Invalid question number.\n");
         return;
+    }
+    for (i = 0; i< *Number; i++){
+    	if (strcmp(cRecords[i].cQuestion1, cRecords[dChoice].cQuestion1) == 0)
+    		nLoc = i;	
+	}
+    printf("Which field do you want to edit for the record?\n[1]Topic\n[2]Question\n[3]First Choice\n[4]Second Choice\n[5]Third Choice\n[6]Answer\n\n");
+    scanf("%d", &pChoice);
+    switch (pChoice) {
+        case 1:
+            printf("Enter the new topic: ");
+            scanf(" %[^\n]s\n", cRecords[nLoc].cTopic1);
+            break;
+        case 2:
+            printf("Enter the new question: ");
+            scanf(" %[^\n]s\n", cRecords[nLoc].cQuestion1);
+            break;
+        case 3:
+            printf("Enter the new first choice: ");
+            scanf("%s\n", cRecords[nLoc].cChoice1);
+            break;
+        case 4:
+            printf("Enter the new second choice: ");
+            scanf("%s\n", cRecords[nLoc].cChoice2);
+            break;
+        case 5:
+            printf("Enter the new third choice: ");
+            scanf("%s\n", cRecords[nLoc].cChoice3);
+            break;
+        case 6:
+            printf("Enter the new answer: ");
+            scanf("%s\n", cRecords[nLoc].cAnswer);
+            break;
+        default:
+            printf("Invalid choice.\n");
+            break;
     }
 }
+
+void deleteRecord(struct records cRecords[], int *Number) {
+    char strInput[150], strNumber[10];
+    int i, j, x, cChoice, cChoice2, nConfirm, nDel = -1;
+    printf("\nAvailable Topics:\n");
+    for (i = 0; i < *Number; i++) {
+        for (j = 0; j < i; j++) {
+            if (strcmp(cRecords[i].cTopic1, cRecords[j].cTopic1) == 0) {
+                break;
+            }
+        }
+        if (i == j) {
+            printf("%d - %s\n", x+1 , cRecords[i].cTopic1);
+            x++;
+        }
+    }
+    printf("\nInput topic: ");
+    scanf("%d", &cChoice);
+    printf("\nList of questions for the topic:\n");
+    for (i = 0; i < *Number; i++) {
+        if (strcmp(cRecords[cChoice-1].cTopic1, cRecords[i].cTopic1) == 0) {
+            printf("%d - %s\n", i+1 , cRecords[i].cQuestion1);
+        }
+    }
+    printf("\nInput question number to delete: ");
+    scanf("%d", &cChoice2);
+    for (i = 0; i < *Number; i++) {
+        if (strcmp(cRecords[cChoice2-1].cTopic1, cRecords[i].cTopic1) == 0) {
+            nDel = i;
+        }
+    }
+    if (nDel >= 0) {
+        printf("\nAre you sure you want to delete this question? (1 = yes, 0 = no): ");
+        scanf("%d", &nConfirm);
+        if (nConfirm == 1) {
+            for (i = nDel; i < *Number - 1; i++) {
+                strcpy(cRecords[i].cTopic1, cRecords[i + 1].cTopic1);
+                strcpy(cRecords[i].cNumber, cRecords[i + 1].cNumber);
+                strcpy(cRecords[i].cQuestion1, cRecords[i + 1].cQuestion1);
+                strcpy(cRecords[i].cChoice1, cRecords[i + 1].cChoice1);
+                strcpy(cRecords[i].cChoice2, cRecords[i + 1].cChoice2);
+                strcpy(cRecords[i].cChoice3, cRecords[i + 1].cChoice3);
+                strcpy(cRecords[i].cAnswer, cRecords[i + 1].cAnswer);
+            }
+            strcpy(cRecords[*Number - 1].cTopic1, "");
+            strcpy(cRecords[*Number - 1].cNumber, "");
+            strcpy(cRecords[*Number - 1].cQuestion1, "");
+            strcpy(cRecords[*Number - 1].cChoice1, "");
+            strcpy(cRecords[*Number - 1].cChoice2, "");
+            strcpy(cRecords[*Number - 1].cChoice3, "");
+            strcpy(cRecords[*Number - 1].cAnswer, "");
+            (*Number)--;
+            printf("\nRecord successfully deleted.\n");
+        } else {
+            printf("\nRecord not deleted.\n");
+        }
+    } else {
+        printf("\nQuestion number not found for topic %s.\n");
+    }
+}
+
+
 
 int mData(struct records cRecords[], int *Number){
 	int nAct, i=0;
@@ -272,6 +350,7 @@ int mData(struct records cRecords[], int *Number){
 	} else if (nAct == 2){	
 		editRecord (cRecords, Number);
 	} else if (nAct == 3){
+		deleteRecord (cRecords, Number);
 	} else if (nAct == 4){
 		ImportRecords (cRecords, Number);
 	}
