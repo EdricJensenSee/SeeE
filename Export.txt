@@ -1,45 +1,5 @@
 Geography
 1
-The Sudd area of Southern Sudan is traversed by which of the following rivers?
-Niger
-Nile
-The Congo
-Answer
-
-Entertainment
-2
-Which character owns an invisible robot plane?
-Wonder Woman
-Superman
-Thanos
-Answer
-
-Literature
-3
-In the movie named 1984, what is Winston's apartment called?
-Oceanie View
-London House
-Victory Mansion
-Answer
-
-Chicken
-3
-In the movie named 1984, what is Winston's apartment called?
-Oceanie View
-London House
-Victory Mansion
-Answer
-
-Entertainment
-3
-In the movie named 1984, what is Winston's apartment called?
-Oceanie View
-London House
-Victory Mansion
-Answer
-
-Geography
-1
 Which country features a shipwreck on its national flag?
 Vanuatu
 Bermuda
@@ -173,4 +133,44 @@ Ant
 Butterfly
 Wasp
 Wasp
+
+Geography
+6
+The Sudd area of Southern Sudan is traversed by which of the following rivers?
+Niger
+Nile
+The Congo
+Answer
+
+Entertainment
+1
+Which character owns an invisible robot plane?
+Wonder Woman
+Superman
+Thanos
+Answer
+
+Literature
+1
+In the movie named 1984, what is Winston's apartment called?
+Oceanie View
+London House
+Victory Mansion
+Answer
+
+Chicken
+1
+In the movie named 1984, what is Winston's apartment called?
+Oceanie View
+London House
+Victory Mansion
+Answer
+
+Entertainment
+2
+In the movie named 1984, what is Winston's apartment called?
+Oceanie View
+London House
+Victory Mansion
+Answer
 
