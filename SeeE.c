@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-typedef char cTopic[20];
+typedef char cTopic[40];
 typedef char cChoice[30];
 typedef char cQuestion[150];
 typedef char User[100];
@@ -32,10 +32,10 @@ int numCount(struct records cRecords[], int *Number) {
 
 void ImportRecords (struct records cRecords[], int *Number){
     int i;
-    int number = 0;
+    int number = *Number;
     char chars[150], fileName[50];
     FILE *Data;
-    printf("Input file");
+    printf("Input file: ");
     scanf("%s", fileName);
     Data = fopen(fileName, "r");
     for (i=0; fgets(chars, 150, Data); i++){ 
@@ -59,8 +59,11 @@ void ImportRecords (struct records cRecords[], int *Number){
 	            strcpy(cRecords[number].cChoice3, chars);            
 	        }
 	        else if (i%7 == 6) {
-	            strcpy(cRecords[number].cAnswer, chars);          
-	            number++;
+	            strcpy(cRecords[number].cAnswer, chars);
+				if (chars[0] != '\n')          
+	            	number++;
+	            	else
+						i-=6;   
 	        }
 		} else {
 			if (i%8 == 0){
@@ -82,11 +85,15 @@ void ImportRecords (struct records cRecords[], int *Number){
 	            strcpy(cRecords[number].cChoice3, chars);            
 	        }
 	        else if (i%8 == 6) {
-	            strcpy(cRecords[number].cAnswer, chars);          
-				number++;  
+	            strcpy(cRecords[number].cAnswer, chars);  
+				if (chars[0] != '\n')          
+	            	number++;
+	            else 
+					i-=7;     
 	        }			
 		}
 		}
+		*Number = number;
 	fclose(Data);
 }
 
@@ -274,8 +281,8 @@ switch (fieldNum) {
 
 void deleteRecord(struct records cRecords[], int *Number) {
     char strInput[150], strNumber[10];
-    int i, j, x, cChoice, cChoice2, nConfirm, nDel = -1;
-    	int i, j, choice = '\0', recordNum, fieldNum, topicNum, matchingTopics[100], matchingRecords[100], numMatches = 0;;
+ 	int nConfirm, nDel = -1;
+    int i, j, choice = '\0', recordNum, fieldNum, topicNum, matchingTopics[100], matchingRecords[100], numMatches = 0;;
 	int topicCount = 0, currNum = 1;
     char topic[20];
 
@@ -312,15 +319,13 @@ for (i = 0; i < numMatches; i++) {
     printf("[%d] %s\n", i+1, cRecords[matchingRecords[i]].cQuestion1);
 }
 
-printf("Choose a record to edit: ");
+printf("Choose a record to delete: ");
 scanf("%d", &choice);
 recordNum = matchingRecords[choice - 1];
 
-    printf("\nInput question number to delete: ");
-    scanf("%d", &cChoice2);
     for (i = 0; i < *Number; i++) {
-        if (strcmp(cRecords[cChoice2-1].cTopic1, cRecords[i].cTopic1) == 0) {
-            nDel = i;
+	        if (strcmp(cRecords[recordNum].cTopic1, cRecords[i].cTopic1) == 0) {
+	            nDel = recordNum;
         }
     }
     if (nDel >= 0) {
@@ -352,8 +357,6 @@ recordNum = matchingRecords[choice - 1];
         printf("\nQuestion number not found for topic %s.\n");
     }
 }
-
-
 
 int mData(struct records cRecords[], int *Number){
 	int nAct, i=0;
