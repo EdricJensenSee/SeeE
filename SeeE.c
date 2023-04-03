@@ -76,9 +76,11 @@ void ImportRecords(struct records cRecords[], int *Number) {
             } else if (i % 7 == 5) {
                 strcpy(cRecords[number].cChoice3, chars);            
             } else if (i % 7 == 6) {
-                strcpy(cRecords[number].cAnswer, chars);
-                if (chars[0] != '\n')          
-                    number++;
+                if (chars[0] != '\n') {
+             	chars[strcspn(chars, "\n")] = '\0';
+                strcpy(cRecords[number].cAnswer, chars);        
+                number++;               	
+				}
                 else
                     i -= 6;   
             }
@@ -102,9 +104,11 @@ void ImportRecords(struct records cRecords[], int *Number) {
                 strcpy(cRecords[number].cChoice3, chars);            
             }
             else if (i%8 == 6) {
-                strcpy(cRecords[number].cAnswer, chars);  
-                if (chars[0] != '\n')          
+                if (chars[0] != '\n') {
+					chars[strcspn(chars, "\n")] = '\0';   
+					strcpy(cRecords[number].cAnswer, chars);        
                     number++;
+				}
                 else 
                     i-=7;     
             }       
@@ -302,7 +306,7 @@ printf("[5] Choice 3\n");
 printf("[6] Answer\n");
 printf("Enter field number: ");
 scanf("%d", &fieldNum);
-
+getchar();
 printf("Enter new value: ");
 fgets (newValue, 150, stdin);
 
@@ -441,44 +445,65 @@ int mData(struct records cRecords[], int *Number){
 	} 
 	} while (nAct >0 && nAct <6);
 }
-void Play (struct records cRecords[], int *Number){
-	int i, j, pCount, recordNum, fieldNum, topicNum, matchingTopics[100], matchingRecords[100], numMatches = 0;
-	playerCount (cPlayers, &pCount);
-	printf("Input PLayer Name: ");
-	scanf("%s", cPlayers[pCount].pName);
-	
-	printf("Available Topics:\n");
-	for (i = 0; i < *Number; i++) {
-	    int isUnique = 1;
-	    for (j = i - 1; j >= 0; j--) {
-	        if (strcmp(cRecords[i].cTopic1, cRecords[j].cTopic1) == 0) {
-	            isUnique = 0;
-	            break;
-	        }
-	    }
-	    if (isUnique) {
-	        matchingTopics[numMatches++] = i;
-	        printf("[%d] %s\n", currNum, cRecords[i].cTopic1);
-	        currNum++;
-	    }
+
+void Play(struct records cRecords[], int* Number) {
+    int i, j, currNum, randNum, pCount, recordNum, fieldNum, topicNum, matchingTopics[100], matchingRecords[100], numMatches = 0;
+    char ans[30];
+    int Continue = 1, Return;
+	playerCount(cPlayers, &pCount);
+    printf("Input Player Name: ");
+    scanf("%s", cPlayers[pCount].pName);
+    getchar();
+    do{
+    	printf("[1] Continue\n[2] End Game");
+    	scanf("%d", &Return);
+    	if (Return == 1){
+    	numMatches=0;
+		printf("Available Topics:\n");
+    	currNum = 1;
+    	for (i = 0; i < *Number; i++) {
+        int isUnique = 1;
+        for (j = i - 1; j >= 0; j--) {
+            if (strcmp(cRecords[i].cTopic1, cRecords[j].cTopic1) == 0) {
+                isUnique = 0;
+                break;
+            }
+        }
+        if (isUnique) {
+            matchingTopics[numMatches++] = i;
+            printf("[%d] %s\n", currNum, cRecords[i].cTopic1);
+            currNum++;
+        }
+    	}
+    	printf("Choose a topic to answer a random question from: ");
+    	scanf("%d", &topicNum);
+    	topicNum = matchingTopics[topicNum - 1];
+		numMatches = 0;
+    	for (i = 0; i < *Number; i++) {
+        if (strcmp(cRecords[i].cTopic1, cRecords[topicNum].cTopic1) == 0) {
+            matchingRecords[numMatches++] = i;
+        }
+    	}
+    	randNum = rand() % numMatches;
+    	system("cls");
+    	printf("Points:%d\nAnswer the Question: %s\n", cPlayers[pCount].pScore, cRecords[matchingRecords[randNum]].cQuestion1);
+    	scanf("%s", ans);
+    	if (strcmp(cRecords[matchingRecords[randNum]].cAnswer, ans) == 0){
+    		printf("Correct!\n");
+    		cPlayers[pCount].pScore+=1;
+    		system("pause");
+		} else {
+			printf("Incorrect\n");
+			system("pause");
+		}	
+	} else {
+		printf("YOUR FINAL SCORE: %d\n", cPlayers[pCount].pScore);
+		Continue = 0;
+		system("pause");
 	}
-	
-	printf("Choose a topic to answer a random question from: ");
-	scanf("%d", &topicNum);
-	
-	topicNum = matchingTopics[topicNum - 1];
-	
-	numMatches = 0;
-	for (i = 0; i < *Number; i++) {
-	    if (strcmp(cRecords[i].cTopic1, cRecords[topicNum].cTopic1) == 0) {
-	        matchingRecords[numMatches++] = i;
-	    }
-	}
-	
-	printf("Choose a record to delete: ");
-	scanf("%d", rand()%numMatches);
-	recordNum = matchingRecords[choice - 1];
-	}
+	} while (Continue);
+}
+
 	
 void pPlay(struct records cRecords[], int *Number){
 	int nDirection;
