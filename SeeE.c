@@ -97,6 +97,24 @@ void ImportRecords (struct records cRecords[], int *Number){
 	fclose(Data);
 }
 
+void ExportRecords(struct records cRecords[], int *Number) {
+    FILE *Data;
+    char fileName[50];
+    int i;
+    printf("Export file: ");
+    scanf("%s", fileName);
+    printf("%d", *Number);
+    Data = fopen(fileName, "a");
+    for (i = 0; i < *Number; i++) {
+        fprintf(Data, "%s", cRecords[i].cTopic1);
+        fprintf(Data, "%s", cRecords[i].cNumber);
+        fprintf(Data, "%s", cRecords[i].cQuestion1);
+        fprintf(Data, "%s%s%s", cRecords[i].cChoice1, cRecords[i].cChoice2, cRecords[i].cChoice3);
+        fprintf(Data, "%s\n", cRecords[i].cAnswer);
+    }
+    fclose(Data);
+}
+
 int menu (){
     int nChoice, nInvalid = 1;
     printf("[1] Manage Data as an admin\n[2] Play as a player\n[3] Exit Program\n\nInput your choice: ");
@@ -364,7 +382,7 @@ int mData(struct records cRecords[], int *Number){
 	cChoice Answer;
 	if (pPassValid() == 1)
 	do {
-		printf("[1] Add a record\n[2] Edit a record\n[3] Delete a record\n[4] Import data\n\nInput direction of activity: ");
+		printf("[1] Add a record\n[2] Edit a record\n[3] Delete a record\n[4] Import data\n[5] Export data\n\nInput direction of activity: ");
 		scanf("%d",&nAct);
 		system("cls");
 		getchar();
@@ -384,6 +402,8 @@ int mData(struct records cRecords[], int *Number){
 		deleteRecord (cRecords, Number);
 	} else if (nAct == 4){
 		ImportRecords (cRecords, Number);
+	} else if (nAct == 5){
+		ExportRecords (cRecords, Number);
 	}
 	} while (nAct < 1 || nAct >4);
 }
