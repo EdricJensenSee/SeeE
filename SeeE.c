@@ -64,16 +64,22 @@ void ImportRecords(struct records cRecords[], int *Number) {
     for (i=0; fgets(chars, 150, Data); i++) { 
         if (i < 8) {
             if (i % 7 == 0) {
+            	chars[strcspn(chars, "\n")] = '\0';  
                 strcpy(cRecords[number].cTopic1, chars);
             } else if (i % 7 == 1) {
+            	chars[strcspn(chars, "\n")] = '\0';  
                 strcpy(cRecords[number].cNumber, chars);
             } else if (i % 7 == 2) {
+            	chars[strcspn(chars, "\n")] = '\0';  
                 strcpy(cRecords[number].cQuestion1, chars);
             } else if (i % 7 == 3) {
+            	chars[strcspn(chars, "\n")] = '\0';  
                 strcpy(cRecords[number].cChoice1, chars);    
             } else if (i % 7 == 4) {
+            	chars[strcspn(chars, "\n")] = '\0';  
                 strcpy(cRecords[number].cChoice2, chars);        
             } else if (i % 7 == 5) {
+            	chars[strcspn(chars, "\n")] = '\0';  
                 strcpy(cRecords[number].cChoice3, chars);            
             } else if (i % 7 == 6) {
                 if (chars[0] != '\n') {
@@ -86,22 +92,28 @@ void ImportRecords(struct records cRecords[], int *Number) {
             }
         } else {
             if (i % 8 == 0) {
+            	chars[strcspn(chars, "\n")] = '\0';  
                 strcpy(cRecords[number].cTopic1, chars);
             }
             else if (i%8 == 1){
+            	chars[strcspn(chars, "\n")] = '\0';  
                 strcpy(cRecords[number].cNumber, chars);
             }
             else if (i%8 == 2) {
+            	chars[strcspn(chars, "\n")] = '\0';  
                 strcpy(cRecords[number].cQuestion1, chars);
             }   
             else if (i%8 == 3) {
+            	chars[strcspn(chars, "\n")] = '\0';  
                 strcpy(cRecords[number].cChoice1, chars);    
             }
             else if (i%8 == 4) {
+            	chars[strcspn(chars, "\n")] = '\0';  
                 strcpy(cRecords[number].cChoice2, chars);        
             }
             else if (i%8 == 5) {
-                strcpy(cRecords[number].cChoice3, chars);            
+            	chars[strcspn(chars, "\n")] = '\0';  
+                strcpy(cRecords[number].cChoice3, chars);  
             }
             else if (i%8 == 6) {
                 if (chars[0] != '\n') {
@@ -148,7 +160,6 @@ void assignTopicNumbers(struct records cRecords[], int *Number) {
     }
 }
 
-
 void ExportRecords(struct records cRecords[], int *Number) {
     FILE *Data;
     char fileName[50];
@@ -156,20 +167,20 @@ void ExportRecords(struct records cRecords[], int *Number) {
     printf("Export file: ");
     do {
         scanf("%s", fileName);
-        Data = fopen(fileName, "a");
+        Data = fopen(fileName, "w"); // open file in write mode to overwrite existing content
         if (Data == NULL) {
             printf("Invalid file name. Please try again\nExport File:");
         }
     } while (Data == NULL);
-    printf("%d", *Number);
+
     assignTopicNumbers(cRecords, Number);
     for (i=0; i<*Number; i++){
-        fprintf(Data, "%s", cRecords[i].cTopic1);
-        fprintf(Data, "%d\n", cRecords[i].nNumber); 
-        fprintf(Data, "%s", cRecords[i].cQuestion1);
-        fprintf(Data, "%s%s%s", cRecords[i].cChoice1, cRecords[i].cChoice2, cRecords[i].cChoice3);
-        fprintf(Data, "%s\n\n", cRecords[i].cAnswer);
-        
+        fprintf(Data, "%s\n", cRecords[i].cTopic1); // print topic
+        fprintf(Data, "%d\n", cRecords[i].nNumber); // print question number
+        fprintf(Data, "%s\n", cRecords[i].cQuestion1); // print question
+        fprintf(Data, "%s\n%s\n%s\n", cRecords[i].cChoice1, cRecords[i].cChoice2, cRecords[i].cChoice3); // print choices
+        fprintf(Data, "%s\n\n", cRecords[i].cAnswer); // print answer
+
         strcpy(cRecords[i].cTopic1, "");
         strcpy(cRecords[i].cQuestion1, "");
         strcpy(cRecords[i].cChoice1, "");
@@ -179,6 +190,7 @@ void ExportRecords(struct records cRecords[], int *Number) {
     }
     fclose(Data); 
 }
+
 
 int menu (){
     int nChoice, nInvalid = 1;
@@ -239,16 +251,18 @@ int checkRecord(struct records cRecords[], char strInput[], char Answer[]) {
 }
 
 void inputRecord (struct records cRecords[], int Number, char strInput[], char Answer[]){
-	cTopic Topic;
-	cChoice Choice1, Choice2, Choice3;
 		printf("Input the topic of the problem: ");
 			scanf("%s", cRecords[Number].cTopic1);
+			getchar();
 		printf("Enter The first choice: ");
 			scanf("%s", cRecords[Number].cChoice1);
+			getchar();
 		printf("Enter the second choice: ");
 			scanf("%s", cRecords[Number].cChoice2);
+			getchar();
 		printf("Enter the third choice: ");
 			scanf("%s", cRecords[Number].cChoice3); 
+			getchar();
 			strcpy(cRecords[Number].cQuestion1, strInput);
 			strcpy(cRecords[Number].cAnswer, Answer);
 		Number++;
@@ -428,6 +442,7 @@ int mData(struct records cRecords[], int *Number){
 	cChoice Answer;
 	if (pPassValid() == 1)
 	do {
+		numCount (cRecords, Number);
 		system("cls");
 		printf("[1] Add a record\n[2] Edit a record\n[3] Delete a record\n[4] Import data\n[5] Export data\n[6] Return to main menu\n\nInput direction of activity: ");
 		scanf("%d",&nAct);
@@ -436,6 +451,7 @@ int mData(struct records cRecords[], int *Number){
 		if(nAct == 1){
 		printf("Input a question: ");
 		fgets (strInput, 150, stdin);
+		strInput[strcspn(strInput, "\n")] = '\0';  
 		printf("Input the answer to the question: " );
 		scanf("%s", Answer);
 		if (checkRecord(cRecords, strInput, Answer) == 1)
