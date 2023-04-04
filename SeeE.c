@@ -247,7 +247,7 @@ void exportRecords(struct records cRecords[], int * nNumber) {
   printf("Export file: ");
   do {
     scanf("%s", fileName);
-    Data = fopen(fileName, "a");
+    Data = fopen(fileName, "w");
     if (Data == NULL) {
       printf("Invalid file name. Please try again\nExport File:");
     }
@@ -438,7 +438,7 @@ void editRecord(struct records cRecords[], int * nNumber) {
   }
 
   while (choice < 1 || choice > numMatches) {
-    printf("Choose a record to delete: ");
+    printf("Choose a record to edit: ");
     scanf("%d", & choice);
     if (choice < 1 || choice > numMatches) {
       printf("Invalid input. Please choose a valid record number.\n");
