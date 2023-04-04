@@ -1,3 +1,10 @@
+/*********************************************************************************************************
+This is to certify that this project is my own work, based on my personal efforts in studying and applying the concepts
+learned. I have constructed the functions and their respective algorithms and corresponding code by myself. The
+program was run, tested, and debugged by my own efforts. I further certify that I have not copied in part or whole or
+otherwise plagiarized the work of other students and/or persons.
+Edric Jensen See, DLSU ID# 12210161
+*********************************************************************************************************/
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
@@ -23,35 +30,35 @@ struct players {
 struct records cRecords[100];
 struct players cPlayers[100];
 
-void records (struct records cRecords[], int *Number){
+void records (struct records cRecords[], int *nNumber){
 	printf("%s", cRecords[0].cQuestion1);
-	printf("%d", *Number);
+	printf("%d", *nNumber);
 }
 
-int numCount(struct records cRecords[], int *Number) {
-    int i, number = 0;
+int numCount(struct records cRecords[], int *nNumber) {
+    int i, nNum = 0;
     for (i = 0; i < 100; i++) {
         if (strlen(cRecords[i].cQuestion1) > 0) {
-            number++;
+            nNum++;
         }
     }
-    *Number = number;
-    return number;
+    *nNumber = nNum;
+    return nNum;
 }
 
 int playerCount(struct players cPlayers[], int *pNumber) {
-    int i, number = 0;
+    int i, nNum = 0;
     for (i = 0; i < 100; i++) {
         if (strlen(cPlayers[i].pName) > 0) {
-            number++;
+            nNum++;
         }
     }
-    *pNumber = number;
+    *pNumber = nNum;
 }
 
-void ImportRecords(struct records cRecords[], int *Number) {
+void ImportRecords(struct records cRecords[], int *nNumber) {
     int i, j, counter = 0;
-    int number = *Number, nNum;
+    int nNum = *nNumber;
     char chars[150], fileName[50];
     FILE *Data;
     printf("Input file: ");
@@ -59,7 +66,7 @@ void ImportRecords(struct records cRecords[], int *Number) {
         scanf("%s", fileName);
         Data = fopen(fileName, "r");
         if (Data == NULL) {
-            printf("Invalid file name. Please try again\nExport File:");        
+            printf("Invalid file name. Please try again\nImport File: ");        
         }
     } while (Data == NULL);
     for (i=0; fgets(chars, 150, Data); i++) { 
@@ -71,7 +78,7 @@ void ImportRecords(struct records cRecords[], int *Number) {
 			            break;
 			        }
 			    }  
-                strcpy(cRecords[number].cTopic1, chars);
+                strcpy(cRecords[nNum].cTopic1, chars);
             } else if (i % 7 == 1) {
 			    for(j=0; chars[j]!='\0'; j++) {
 			        if(chars[j] == '\n') {
@@ -79,7 +86,7 @@ void ImportRecords(struct records cRecords[], int *Number) {
 			            break;
 			        }
 			    }  
-                strcpy(cRecords[number].cNumber, chars);
+                strcpy(cRecords[nNum].cNumber, chars);
             } else if (i % 7 == 2) {
 			    for(j=0; chars[j]!='\0'; j++) {
 			        if(chars[j] == '\n') {
@@ -87,7 +94,7 @@ void ImportRecords(struct records cRecords[], int *Number) {
 			            break;
 			        }
 			    }  
-                strcpy(cRecords[number].cQuestion1, chars);
+                strcpy(cRecords[nNum].cQuestion1, chars);
             } else if (i % 7 == 3) {
 			    for(j=0; chars[j]!='\0'; j++) {
 			        if(chars[j] == '\n') {
@@ -95,7 +102,7 @@ void ImportRecords(struct records cRecords[], int *Number) {
 			            break;
 			        }
 			    }   
-                strcpy(cRecords[number].cChoice1, chars);    
+                strcpy(cRecords[nNum].cChoice1, chars);    
             } else if (i % 7 == 4) {
 			    for(j=0; chars[j]!='\0'; j++) {
 			        if(chars[j] == '\n') {
@@ -103,7 +110,7 @@ void ImportRecords(struct records cRecords[], int *Number) {
 			            break;
 			        }
 			    }   
-                strcpy(cRecords[number].cChoice2, chars);        
+                strcpy(cRecords[nNum].cChoice2, chars);        
             } else if (i % 7 == 5) {
 			    for(j=0; chars[j]!='\0'; j++) {
 			        if(chars[j] == '\n') {
@@ -111,7 +118,7 @@ void ImportRecords(struct records cRecords[], int *Number) {
 			            break;
 			        }
 			    }  
-                strcpy(cRecords[number].cChoice3, chars);            
+                strcpy(cRecords[nNum].cChoice3, chars);            
             } else if (i % 7 == 6) {
                 if (chars[0] != '\n') {
 			    for(j=0; chars[j]!='\0'; j++) {
@@ -120,8 +127,8 @@ void ImportRecords(struct records cRecords[], int *Number) {
 			            break;
 			        }
 			    }  
-                strcpy(cRecords[number].cAnswer, chars);        
-                number++;               	
+                strcpy(cRecords[nNum].cAnswer, chars);        
+                nNum++;               	
 				}
                 else
                     i -= 6;   
@@ -134,7 +141,7 @@ void ImportRecords(struct records cRecords[], int *Number) {
 			            break;
 			        }
 			    }   
-                strcpy(cRecords[number].cTopic1, chars);
+                strcpy(cRecords[nNum].cTopic1, chars);
             }
             else if (i%8 == 1){
 			    for(j=0; chars[j]!='\0'; j++) {
@@ -143,7 +150,7 @@ void ImportRecords(struct records cRecords[], int *Number) {
 			            break;
 			        }
 			    }  
-                strcpy(cRecords[number].cNumber, chars);
+                strcpy(cRecords[nNum].cNumber, chars);
             }
             else if (i%8 == 2) {
 			    for(j=0; chars[j]!='\0'; j++) {
@@ -152,7 +159,7 @@ void ImportRecords(struct records cRecords[], int *Number) {
 			            break;
 			        }
 			    }  
-                strcpy(cRecords[number].cQuestion1, chars);
+                strcpy(cRecords[nNum].cQuestion1, chars);
             }   
             else if (i%8 == 3) {
 			    for(j=0; chars[j]!='\0'; j++) {
@@ -161,7 +168,7 @@ void ImportRecords(struct records cRecords[], int *Number) {
 			            break;
 			        }
 			    }  
-                strcpy(cRecords[number].cChoice1, chars);    
+                strcpy(cRecords[nNum].cChoice1, chars);    
             }
             else if (i%8 == 4) {
 			    for(j=0; chars[j]!='\0'; j++) {
@@ -170,7 +177,7 @@ void ImportRecords(struct records cRecords[], int *Number) {
 			            break;
 			        }
 			    }   
-                strcpy(cRecords[number].cChoice2, chars);        
+                strcpy(cRecords[nNum].cChoice2, chars);        
             }
             else if (i%8 == 5) {
 			    for(j=0; chars[j]!='\0'; j++) {
@@ -179,7 +186,7 @@ void ImportRecords(struct records cRecords[], int *Number) {
 			            break;
 			        }
 			    }   
-                strcpy(cRecords[number].cChoice3, chars);  
+                strcpy(cRecords[nNum].cChoice3, chars);  
             }
             else if (i%8 == 6) {
                 if (chars[0] != '\n') {
@@ -189,21 +196,26 @@ void ImportRecords(struct records cRecords[], int *Number) {
 			            break;
 			        }
 			    }                  	
-					strcpy(cRecords[number].cAnswer, chars);        
-                    number++;
+					strcpy(cRecords[nNum].cAnswer, chars);        
+                    nNum++;
 				}
                 else 
                     i-=7;     
             }       
 		}
     }
-    *Number = number;
+    if (nNum == *nNumber){
+    	printf("Nothing was imported...\n");
+	} else
+		printf("DATA SUCCESSFULLY IMPORTED!\n");
+    system("pause");
+    *nNumber = nNum;
     fclose(Data);
 }
 
-void assignTopicNumbers(struct records cRecords[], int *Number) {
+void assignTopicNumbers(struct records cRecords[], int *nNumber) {
     int i, j, topicNum, matchingTopics[100], matchingRecords[100], numMatches1 = 0, numMatches2 = 0;
-    for (i = 0; i < *Number; i++) {
+    for (i = 0; i < *nNumber; i++) {
         int isUnique = 1;
         for (j = i - 1; j >= 0; j--) {
             if (strcmp(cRecords[i].cTopic1, cRecords[j].cTopic1) == 0) {
@@ -219,7 +231,7 @@ void assignTopicNumbers(struct records cRecords[], int *Number) {
     for (i = 0; i < numMatches1; i++) {
         int counter = 0;
         numMatches2 = 0;
-        for (j = 0; j < *Number; j++) {
+        for (j = 0; j < *nNumber; j++) {
             if (strcmp(cRecords[j].cTopic1, cRecords[matchingTopics[i]].cTopic1) == 0) {
                 matchingRecords[numMatches2++] = j;
             }
@@ -231,7 +243,7 @@ void assignTopicNumbers(struct records cRecords[], int *Number) {
     }
 }
 
-void ExportRecords(struct records cRecords[], int *Number) {
+void ExportRecords(struct records cRecords[], int *nNumber) {
     FILE *Data;
     char fileName[50];
     int i;
@@ -244,10 +256,10 @@ void ExportRecords(struct records cRecords[], int *Number) {
         }
     } while (Data == NULL);
 
-    assignTopicNumbers(cRecords, Number);
-    for (i=0; i<*Number; i++){
+    assignTopicNumbers(cRecords, nNumber);
+    for (i=0; i<*nNumber; i++){
         fprintf(Data, "%s\n", cRecords[i].cTopic1); // print topic
-        fprintf(Data, "%d\n", cRecords[i].nNumber); // print question number
+        fprintf(Data, "%d\n", cRecords[i].nNumber); // print question nNum
         fprintf(Data, "%s\n", cRecords[i].cQuestion1); // print question
         fprintf(Data, "%s\n%s\n%s\n", cRecords[i].cChoice1, cRecords[i].cChoice2, cRecords[i].cChoice3); // print choices
         fprintf(Data, "%s\n\n", cRecords[i].cAnswer); // print answer
@@ -288,9 +300,8 @@ int menu (){
 int pPassValid() {
     char cPass[11] = "", cKey[10] = "AdminPass", cAdd[11], ch;
     int i = 0, j, nAsterisks = 0;
-
-    printf("*****Manage Data*****\n");
     do {
+    	printf("*****Manage Data*****\n");
         printf("Input Password (9): ");
         i = 0;
         while ((ch = _getch()) != '\r') { // use '\r' instead of "\n" to read the carriage return character
@@ -318,76 +329,76 @@ int pPassValid() {
     } while (1);
 }
 
-int checkRecord(struct records cRecords[], char strInput[], char Answer[], int *Number) {
+int checkRecord(struct records cRecords[], char strInput[], char Answer[], int *nNumber) {
     int i;
-    for (i = 0; i < *Number; i++) {
+    for (i = 0; i < *nNumber; i++) {
         if (strcmp(strInput, cRecords[i].cQuestion1) == 0 && strcmp(Answer, cRecords[i].cAnswer) == 0)
             return 1;
     }
     return 0;
 }
 
-void inputRecord (struct records cRecords[], int Number, char strInput[], char Answer[]) {
-    if (cRecords[Number].cTopic1[0] == '\0') {
+void inputRecord (struct records cRecords[], int nNumber, char strInput[], char Answer[]) {
+    if (cRecords[nNumber].cTopic1[0] == '\0') {
         printf("Input the topic of the problem: ");
-        scanf("%s", cRecords[Number].cTopic1);
+        scanf("%s", cRecords[nNumber].cTopic1);
     }
     system("cls");
     printf("Input a question: %s\n", strInput);
     printf("Input the answer to the question: %s\n", Answer);
-    printf("Input the topic of the problem: %s\n", cRecords[Number].cTopic1);
+    printf("Input the topic of the problem: %s\n", cRecords[nNumber].cTopic1);
 
     do {
     	    system("cls");
     	printf("Input a question: %s\n", strInput);
     	printf("Input the answer to the question: %s\n", Answer);
-    	printf("Input the topic of the problem: %s\n", cRecords[Number].cTopic1);
+    	printf("Input the topic of the problem: %s\n", cRecords[nNumber].cTopic1);
         printf("Enter the first choice: ");
-        scanf("%s", cRecords[Number].cChoice1);
+        scanf("%s", cRecords[nNumber].cChoice1);
         printf("Enter the second choice: ");
-        scanf("%s", cRecords[Number].cChoice2);
+        scanf("%s", cRecords[nNumber].cChoice2);
         printf("Enter the third choice: ");
-        scanf("%s", cRecords[Number].cChoice3);
+        scanf("%s", cRecords[nNumber].cChoice3);
 
-        if (strcmp(cRecords[Number].cChoice1, cRecords[Number].cChoice2) == 0 ||
-            strcmp(cRecords[Number].cChoice1, cRecords[Number].cChoice3) == 0 ||
-            strcmp(cRecords[Number].cChoice2, cRecords[Number].cChoice3) == 0) {
+        if (strcmp(cRecords[nNumber].cChoice1, cRecords[nNumber].cChoice2) == 0 ||
+            strcmp(cRecords[nNumber].cChoice1, cRecords[nNumber].cChoice3) == 0 ||
+            strcmp(cRecords[nNumber].cChoice2, cRecords[nNumber].cChoice3) == 0) {
             printf("Choices must be unique. Please enter valid choices.\n");
             system("pause");
             system("cls");
         }
-    } while (strcmp(cRecords[Number].cChoice1, cRecords[Number].cChoice2) == 0 ||
-             strcmp(cRecords[Number].cChoice1, cRecords[Number].cChoice3) == 0 ||
-             strcmp(cRecords[Number].cChoice2, cRecords[Number].cChoice3) == 0);
+    } while (strcmp(cRecords[nNumber].cChoice1, cRecords[nNumber].cChoice2) == 0 ||
+             strcmp(cRecords[nNumber].cChoice1, cRecords[nNumber].cChoice3) == 0 ||
+             strcmp(cRecords[nNumber].cChoice2, cRecords[nNumber].cChoice3) == 0);
 
-    if (strcmp(cRecords[Number].cChoice1, Answer) != 0 &&
-        strcmp(cRecords[Number].cChoice2, Answer) != 0 &&
-        strcmp(cRecords[Number].cChoice3, Answer) != 0) {
+    if (strcmp(cRecords[nNumber].cChoice1, Answer) != 0 &&
+        strcmp(cRecords[nNumber].cChoice2, Answer) != 0 &&
+        strcmp(cRecords[nNumber].cChoice3, Answer) != 0) {
         printf("The answer is not in the choices. Please input valid choices.\n");
         system("pause");
         system("cls");
-        inputRecord(cRecords, Number, strInput, Answer);
+        inputRecord(cRecords, nNumber, strInput, Answer);
         return;
     }
-    strcpy(cRecords[Number].cQuestion1, strInput);
-    strcpy(cRecords[Number].cAnswer, Answer);
-    Number++;
+    strcpy(cRecords[nNumber].cQuestion1, strInput);
+    strcpy(cRecords[nNumber].cAnswer, Answer);
+    nNumber++;
 }
 
 
 
-void editRecord(struct records cRecords[], int *Number) {
+void editRecord(struct records cRecords[], int *nNumber) {
 	int i, j, choice = '\0', recordNum, fieldNum, topicNum, matchingTopics[100], matchingRecords[100], numMatches = 0;
 	int topicCount = 0, currNum = 1;
     char topic[20], newValue[150];
-    if (*Number == 0) {
+    if (*nNumber == 0) {
         printf("There are currently no records.\n");
         system("pause");
         return;
     }
 system("cls");
 printf("Available Topics:\n");
-for (i = 0; i < *Number; i++) {
+for (i = 0; i < *nNumber; i++) {
     int isUnique = 1;
     for (j = i - 1; j >= 0; j--) {
         if (strcmp(cRecords[i].cTopic1, cRecords[j].cTopic1) == 0) {
@@ -402,19 +413,19 @@ for (i = 0; i < *Number; i++) {
     }
 }
 
-printf("Choose a topic to edit (enter the number): ");
+printf("Choose a topic to edit (enter the nNum): ");
 scanf("%d", &topicNum);
 
 topicNum = matchingTopics[topicNum - 1];
 
 numMatches = 0;
-for (i = 0; i < *Number; i++) {
+for (i = 0; i < *nNumber; i++) {
     if (strcmp(cRecords[i].cTopic1, cRecords[topicNum].cTopic1) == 0) {
         matchingRecords[numMatches++] = i;
     }
 }
 system("cls");
-printf("\nRecords in %s\n", cRecords[topicNum].cTopic1);
+printf("Records in %s\n", cRecords[topicNum].cTopic1);
 for (i = 0; i < numMatches; i++) {
     printf("[%d] %s\n", i+1, cRecords[matchingRecords[i]].cQuestion1);
 }
@@ -423,7 +434,7 @@ printf("Choose a record to edit: ");
 scanf("%d", &choice);
 recordNum = matchingRecords[choice - 1];
 system("cls");
-printf("\nCurrent Record:\n");
+printf("Current Record:\n");
 printf("Topic: %s\n", cRecords[recordNum].cTopic1);
 printf("Question: %s\n", cRecords[recordNum].cQuestion1);
 printf("Choice 1: %s\n", cRecords[recordNum].cChoice1);
@@ -439,7 +450,7 @@ printf("[3] Choice 1\n");
 printf("[4] Choice 2\n");
 printf("[5] Choice 3\n");
 printf("[6] Answer\n");
-printf("Enter field number: ");
+printf("Enter field nNum: ");
 scanf("%d", &fieldNum);
 getchar();
 printf("Enter new value: ");
@@ -470,20 +481,20 @@ switch (fieldNum) {
 }
 }
 
-void deleteRecord(struct records cRecords[], int *Number) {
+void deleteRecord(struct records cRecords[], int *nNumber) {
     char strInput[150], strNumber[10];
  	int nConfirm, nDel = -1;
     int i, j, choice = '\0', recordNum, fieldNum, topicNum, matchingTopics[100], matchingRecords[100], numMatches = 0;;
 	int topicCount = 0, currNum = 1;
     char topic[20];
-    if (*Number == 0) {
+    if (*nNumber == 0) {
         printf("There are currently no records.\n");
         system("pause");
         return;
     }
 system("cls");
 printf("Available Topics:\n");
-for (i = 0; i < *Number; i++) {
+for (i = 0; i < *nNumber; i++) {
     int isUnique = 1;
     for (j = i - 1; j >= 0; j--) {
         if (strcmp(cRecords[i].cTopic1, cRecords[j].cTopic1) == 0) {
@@ -504,13 +515,13 @@ system("cls");
 topicNum = matchingTopics[topicNum - 1];
 
 numMatches = 0;
-for (i = 0; i < *Number; i++) {
+for (i = 0; i < *nNumber; i++) {
     if (strcmp(cRecords[i].cTopic1, cRecords[topicNum].cTopic1) == 0) {
         matchingRecords[numMatches++] = i;
     }
 }
 
-printf("\nRecords in %s\n", cRecords[topicNum].cTopic1);
+printf("Records in %s\n", cRecords[topicNum].cTopic1);
 for (i = 0; i < numMatches; i++) {
     printf("[%d] %s\n", i+1, cRecords[matchingRecords[i]].cQuestion1);
 }
@@ -519,7 +530,7 @@ printf("Choose a record to delete: ");
 scanf("%d", &choice);
 recordNum = matchingRecords[choice - 1];
 
-    for (i = 0; i < *Number; i++) {
+    for (i = 0; i < *nNumber; i++) {
 	        if (strcmp(cRecords[recordNum].cTopic1, cRecords[i].cTopic1) == 0) {
 	            nDel = recordNum;
         }
@@ -528,7 +539,7 @@ recordNum = matchingRecords[choice - 1];
         printf("\nAre you sure you want to delete this question? (1 = yes, 0 = no): ");
         scanf("%d", &nConfirm);
         if (nConfirm == 1) {
-            for (i = nDel; i < *Number - 1; i++) {
+            for (i = nDel; i < *nNumber - 1; i++) {
                 strcpy(cRecords[i].cTopic1, cRecords[i + 1].cTopic1);
                 strcpy(cRecords[i].cNumber, cRecords[i + 1].cNumber);
                 strcpy(cRecords[i].cQuestion1, cRecords[i + 1].cQuestion1);
@@ -537,30 +548,30 @@ recordNum = matchingRecords[choice - 1];
                 strcpy(cRecords[i].cChoice3, cRecords[i + 1].cChoice3);
                 strcpy(cRecords[i].cAnswer, cRecords[i + 1].cAnswer);
             }
-            strcpy(cRecords[*Number - 1].cTopic1, "");
-            strcpy(cRecords[*Number - 1].cNumber, "");
-            strcpy(cRecords[*Number - 1].cQuestion1, "");
-            strcpy(cRecords[*Number - 1].cChoice1, "");
-            strcpy(cRecords[*Number - 1].cChoice2, "");
-            strcpy(cRecords[*Number - 1].cChoice3, "");
-            strcpy(cRecords[*Number - 1].cAnswer, "");
-            (*Number)--;
+            strcpy(cRecords[*nNumber - 1].cTopic1, "");
+            strcpy(cRecords[*nNumber - 1].cNumber, "");
+            strcpy(cRecords[*nNumber - 1].cQuestion1, "");
+            strcpy(cRecords[*nNumber - 1].cChoice1, "");
+            strcpy(cRecords[*nNumber - 1].cChoice2, "");
+            strcpy(cRecords[*nNumber - 1].cChoice3, "");
+            strcpy(cRecords[*nNumber - 1].cAnswer, "");
+            (*nNumber)--;
             printf("\nRecord successfully deleted.\n");
         } else {
             printf("\nRecord not deleted.\n");
         }
     } else {
-        printf("\nQuestion number not found for topic %s.\n");
+        printf("\nQuestion nNum not found for topic %s.\n");
     }
 }
 
-int mData(struct records cRecords[], int *Number){
+int mData(struct records cRecords[], int *nNumber){
 	int nAct, i=0;
 	cQuestion strInput; 
 	cChoice Answer;
 	if (pPassValid() == 1)
 	do {
-		numCount (cRecords, Number);
+		numCount (cRecords, nNumber);
 		system("cls");
 		printf("[1] Add a record\n[2] Edit a record\n[3] Delete a record\n[4] Import data\n[5] Export data\n[6] Return to main menu\n\nInput direction of activity: ");
 		scanf("%d",&nAct);
@@ -577,35 +588,35 @@ int mData(struct records cRecords[], int *Number){
 			    } 
 		printf("Input the answer to the question: " );
 		scanf("%s", Answer);
-		if (checkRecord(cRecords, strInput, Answer, Number) == 1){
+		if (checkRecord(cRecords, strInput, Answer, nNumber) == 1){
 			printf("It is already listed\n");
 			system("pause");	
 		}
 		else{
-			inputRecord (cRecords, *Number, strInput, Answer);
+			inputRecord (cRecords, *nNumber, strInput, Answer);
 		}
-		numCount (cRecords, Number);
+		numCount (cRecords, nNumber);
 	} else if (nAct == 2){	
-		editRecord (cRecords, Number);
+		editRecord (cRecords, nNumber);
 	} else if (nAct == 3){
-		deleteRecord (cRecords, Number);
+		deleteRecord (cRecords, nNumber);
 	} else if (nAct == 4){
-		ImportRecords (cRecords, Number);
+		ImportRecords (cRecords, nNumber);
 	} else if (nAct == 5){
-		ExportRecords (cRecords, Number);
+		ExportRecords (cRecords, nNumber);
 	} 
 	} while (nAct != 6);
 }
-void answeredRecord(struct records cRecords[], int* Number){
+void answeredRecord(struct records cRecords[], int* nNumber){
 	
 }
 
-void Play(struct records cRecords[], int* Number) {
+void Play(struct records cRecords[], int* nNumber) {
     int i, j, currNum, randNum, pCount, recordNum, fieldNum, topicNum, matchingTopics[100], matchingRecords[100], numMatches = 0;
     char ans[30];
     int Continue = 1, Return, nNum = 0;
 	playerCount(cPlayers, &pCount);
-	if (*Number == 0) {
+	if (*nNumber == 0) {
 		system("cls");
         printf("There are currently no records.\n");
         system("pause");
@@ -630,7 +641,7 @@ void Play(struct records cRecords[], int* Number) {
     	numMatches=0;
 		printf("Available Topics:\n");
     	currNum = 1;
-    	for (i = 0; i < *Number; i++) {
+    	for (i = 0; i < *nNumber; i++) {
         int isUnique = 1;
         for (j = i - 1; j >= 0; j--) {
             if (strcmp(cRecords[i].cTopic1, cRecords[j].cTopic1) == 0) {
@@ -648,7 +659,7 @@ void Play(struct records cRecords[], int* Number) {
     	scanf("%d", &topicNum);
     	topicNum = matchingTopics[topicNum - 1];
 		numMatches = 0;
-    	for (i = 0; i < *Number; i++) {
+    	for (i = 0; i < *nNumber; i++) {
         if (strcmp(cRecords[i].cTopic1, cRecords[topicNum].cTopic1) == 0) {
             matchingRecords[numMatches++] = i;
         }
@@ -662,7 +673,7 @@ void Play(struct records cRecords[], int* Number) {
     		printf("Correct!\n");
     		cPlayers[pCount].pScore+=1;
     		system("pause");
-             for (i = randNum; i < *Number - 1; i++) {
+             for (i = randNum; i < *nNumber - 1; i++) {
                 strcpy(cRecords[i].cTopic1, cRecords[i + 1].cTopic1);
                 strcpy(cRecords[i].cNumber, cRecords[i + 1].cNumber);
                 strcpy(cRecords[i].cQuestion1, cRecords[i + 1].cQuestion1);
@@ -671,14 +682,14 @@ void Play(struct records cRecords[], int* Number) {
                 strcpy(cRecords[i].cChoice3, cRecords[i + 1].cChoice3);
                 strcpy(cRecords[i].cAnswer, cRecords[i + 1].cAnswer);
             }
-            strcpy(cRecords[*Number - 1].cTopic1, "");
-            strcpy(cRecords[*Number - 1].cNumber, "");
-            strcpy(cRecords[*Number - 1].cQuestion1, "");
-            strcpy(cRecords[*Number - 1].cChoice1, "");
-            strcpy(cRecords[*Number - 1].cChoice2, "");
-            strcpy(cRecords[*Number - 1].cChoice3, "");
-            strcpy(cRecords[*Number - 1].cAnswer, "");
-            (*Number)--;   		
+            strcpy(cRecords[*nNumber - 1].cTopic1, "");
+            strcpy(cRecords[*nNumber - 1].cNumber, "");
+            strcpy(cRecords[*nNumber - 1].cQuestion1, "");
+            strcpy(cRecords[*nNumber - 1].cChoice1, "");
+            strcpy(cRecords[*nNumber - 1].cChoice2, "");
+            strcpy(cRecords[*nNumber - 1].cChoice3, "");
+            strcpy(cRecords[*nNumber - 1].cAnswer, "");
+            (*nNumber)--;   		
 		} else {
 			nNum = 1;
 			printf("Incorrect Answer\n");
@@ -688,7 +699,7 @@ void Play(struct records cRecords[], int* Number) {
 	} else {
 		Return = 0;
 		printf("YOUR FINAL SCORE: %d\n", cPlayers[pCount].pScore);
-		system("pause");
+		system("pause");	
 	}
 	} while (Return);
 }
@@ -722,7 +733,7 @@ void ViewScores(struct players cPlayers[], int *pNumber) {
         }
     }
     for (i = 0; i < *pNumber; i++) {
-        printf("Player Name: %s\nScore: %d\n\n", cPlayers[i].pName, cPlayers[i].pScore);
+        printf("RANK: %d\nPlayer Name: %s\nScore: %d\n\n", i+1, cPlayers[i].pName, cPlayers[i].pScore);
     }
     system("pause");
 }
@@ -742,7 +753,7 @@ void importScores(struct players cPlayers[]) {
     fclose(Data);
 }
 
-void pPlay(struct records cRecords[], int *Number){
+void pPlay(struct records cRecords[], int *nNumber){
 	int nDirection, pNumber;
 	importScores(cPlayers);
 	while (nDirection != 3){
@@ -751,28 +762,29 @@ void pPlay(struct records cRecords[], int *Number){
 	printf("[1] Play\n[2] View Scores\n[3] Exit\n\nInput Direction of Activity: ");	
 	scanf("%d", &nDirection);
 	if (nDirection == 1 ){
-		Play(cRecords, Number);
+		Play(cRecords, nNumber);
 	} else if (nDirection == 2){
 		ViewScores(cPlayers, &pNumber);
 	} else if (nDirection ==3){
 		Exit (cPlayers, &pNumber);
 	}		
 	}
-
 }
 
 int main (){
 time_t t;
 srand((unsigned) time( & t));
-int i, Number = 0, menuVal; 
+int i, nNumber = 0, menuVal = 0; 
 while (menuVal!=3) {
-numCount (cRecords, &Number);
-records (cRecords, &Number);
+numCount (cRecords, &nNumber);
 menuVal = menu();
 if (menuVal == 1)
-mData(cRecords, &Number);
-else if (menuVal == 2)
-pPlay(cRecords, &Number);
-system("cls");	
+mData(cRecords, &nNumber);
+else if (menuVal == 2){
+pPlay(cRecords, &nNumber);
+system("cls");		
+} else if (menuVal == 3)
+printf("Have a nice day!");
 }
 }
+
