@@ -238,7 +238,7 @@ void ExportRecords(struct records cRecords[], int *Number) {
     printf("Export file: ");
     do {
         scanf("%s", fileName);
-        Data = fopen(fileName, "w"); // open file in write mode to overwrite existing content
+        Data = fopen(fileName, "a"); // open file in write mode to overwrite existing content
         if (Data == NULL) {
             printf("Invalid file name. Please try again\nExport File:");
         }
@@ -596,6 +596,9 @@ int mData(struct records cRecords[], int *Number){
 	} 
 	} while (nAct != 6);
 }
+void answeredRecord(struct records cRecords[], int* Number){
+	
+}
 
 void Play(struct records cRecords[], int* Number) {
     int i, j, currNum, randNum, pCount, recordNum, fieldNum, topicNum, matchingTopics[100], matchingRecords[100], numMatches = 0;
@@ -659,6 +662,23 @@ void Play(struct records cRecords[], int* Number) {
     		printf("Correct!\n");
     		cPlayers[pCount].pScore+=1;
     		system("pause");
+             for (i = randNum; i < *Number - 1; i++) {
+                strcpy(cRecords[i].cTopic1, cRecords[i + 1].cTopic1);
+                strcpy(cRecords[i].cNumber, cRecords[i + 1].cNumber);
+                strcpy(cRecords[i].cQuestion1, cRecords[i + 1].cQuestion1);
+                strcpy(cRecords[i].cChoice1, cRecords[i + 1].cChoice1);
+                strcpy(cRecords[i].cChoice2, cRecords[i + 1].cChoice2);
+                strcpy(cRecords[i].cChoice3, cRecords[i + 1].cChoice3);
+                strcpy(cRecords[i].cAnswer, cRecords[i + 1].cAnswer);
+            }
+            strcpy(cRecords[*Number - 1].cTopic1, "");
+            strcpy(cRecords[*Number - 1].cNumber, "");
+            strcpy(cRecords[*Number - 1].cQuestion1, "");
+            strcpy(cRecords[*Number - 1].cChoice1, "");
+            strcpy(cRecords[*Number - 1].cChoice2, "");
+            strcpy(cRecords[*Number - 1].cChoice3, "");
+            strcpy(cRecords[*Number - 1].cAnswer, "");
+            (*Number)--;   		
 		} else {
 			nNum = 1;
 			printf("Incorrect Answer\n");
