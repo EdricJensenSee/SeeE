@@ -717,22 +717,22 @@ void Play(struct records cRecords[], int * nNumber) {
   scanf("%d", & Return);
   getchar();
   do {
+  	if ( * nNumber == 0) {
+    system("cls");
+    printf("There are no records left.\n");
+    system("pause");
+    Return = 0;
+    nNum = 0;
+    }
     currNum = 0;
-    numMatches = 0;
     if (nNum == 1) {
       printf("Current Points: %d\n\n[1] Continue\n[2] End Game\n\nEnter Course of Action: ", cPlayers[pCount].pScore);
       scanf("%d", & Return);
       if (Return == 1)
-        nNum = 0;
+      nNum = 0;
       system("cls");
     }
     if (Return == 1) {
-      if ( * nNumber == 0) {
-        system("cls");
-        printf("There are no records left.\n");
-        system("pause");
-        Return = 0;
-      }
       printf("Available Topics:\n");
       for (i = 0; i < * nNumber; i++) {
         int isUnique = 1;
@@ -764,7 +764,7 @@ void Play(struct records cRecords[], int * nNumber) {
       }
       randNum = rand() % numMatches;
       system("cls");
-      printf("Points:%d\nTopic: %s\nAnswer the Question: %s\nAnswer: ", cPlayers[pCount].pScore, cRecords[matchingRecords[randNum]].cTopic1, cRecords[matchingRecords[randNum]].cQuestion1);
+      printf("Points:%d\nTopic: %s\nAnswer the Question: %s\nChoices:\n%s\n%s\n%s\n\nAnswer: ", cPlayers[pCount].pScore, cRecords[matchingRecords[randNum]].cTopic1, cRecords[matchingRecords[randNum]].cQuestion1, cRecords[matchingRecords[randNum]].cChoice1, cRecords[matchingRecords[randNum]].cChoice2, cRecords[matchingRecords[randNum]].cChoice3);
       scanf("%s", ans);
       if (strcmp(cRecords[matchingRecords[randNum]].cAnswer, ans) == 0) {
         nNum = 1;
@@ -788,7 +788,6 @@ void Play(struct records cRecords[], int * nNumber) {
         strcpy(cRecords[ * nNumber - 1].cChoice3, "");
         strcpy(cRecords[ * nNumber - 1].cAnswer, "");
         ( * nNumber) --;
-
       } else {
         nNum = 1;
         printf("Incorrect Answer\n");
