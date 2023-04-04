@@ -75,7 +75,6 @@ void importRecords(struct records cRecords[], int * nNumber) {
         for (j = 0; chars[j] != '\0'; j++) {
           if (chars[j] == '\n') {
             chars[j] = '\0';
-            break;
           }
         }
         strcpy(cRecords[nNum].cTopic1, chars);
@@ -83,7 +82,6 @@ void importRecords(struct records cRecords[], int * nNumber) {
         for (j = 0; chars[j] != '\0'; j++) {
           if (chars[j] == '\n') {
             chars[j] = '\0';
-            break;
           }
         }
         strcpy(cRecords[nNum].cNumber, chars);
@@ -91,7 +89,6 @@ void importRecords(struct records cRecords[], int * nNumber) {
         for (j = 0; chars[j] != '\0'; j++) {
           if (chars[j] == '\n') {
             chars[j] = '\0';
-            break;
           }
         }
         strcpy(cRecords[nNum].cQuestion1, chars);
@@ -99,7 +96,6 @@ void importRecords(struct records cRecords[], int * nNumber) {
         for (j = 0; chars[j] != '\0'; j++) {
           if (chars[j] == '\n') {
             chars[j] = '\0';
-            break;
           }
         }
         strcpy(cRecords[nNum].cChoice1, chars);
@@ -107,7 +103,6 @@ void importRecords(struct records cRecords[], int * nNumber) {
         for (j = 0; chars[j] != '\0'; j++) {
           if (chars[j] == '\n') {
             chars[j] = '\0';
-            break;
           }
         }
         strcpy(cRecords[nNum].cChoice2, chars);
@@ -115,7 +110,6 @@ void importRecords(struct records cRecords[], int * nNumber) {
         for (j = 0; chars[j] != '\0'; j++) {
           if (chars[j] == '\n') {
             chars[j] = '\0';
-            break;
           }
         }
         strcpy(cRecords[nNum].cChoice3, chars);
@@ -124,7 +118,6 @@ void importRecords(struct records cRecords[], int * nNumber) {
           for (j = 0; chars[j] != '\0'; j++) {
             if (chars[j] == '\n') {
               chars[j] = '\0';
-              break;
             }
           }
           strcpy(cRecords[nNum].cAnswer, chars);
@@ -137,7 +130,6 @@ void importRecords(struct records cRecords[], int * nNumber) {
         for (j = 0; chars[j] != '\0'; j++) {
           if (chars[j] == '\n') {
             chars[j] = '\0';
-            break;
           }
         }
         strcpy(cRecords[nNum].cTopic1, chars);
@@ -145,7 +137,6 @@ void importRecords(struct records cRecords[], int * nNumber) {
         for (j = 0; chars[j] != '\0'; j++) {
           if (chars[j] == '\n') {
             chars[j] = '\0';
-            break;
           }
         }
         strcpy(cRecords[nNum].cNumber, chars);
@@ -153,7 +144,6 @@ void importRecords(struct records cRecords[], int * nNumber) {
         for (j = 0; chars[j] != '\0'; j++) {
           if (chars[j] == '\n') {
             chars[j] = '\0';
-            break;
           }
         }
         strcpy(cRecords[nNum].cQuestion1, chars);
@@ -161,7 +151,6 @@ void importRecords(struct records cRecords[], int * nNumber) {
         for (j = 0; chars[j] != '\0'; j++) {
           if (chars[j] == '\n') {
             chars[j] = '\0';
-            break;
           }
         }
         strcpy(cRecords[nNum].cChoice1, chars);
@@ -169,7 +158,6 @@ void importRecords(struct records cRecords[], int * nNumber) {
         for (j = 0; chars[j] != '\0'; j++) {
           if (chars[j] == '\n') {
             chars[j] = '\0';
-            break;
           }
         }
         strcpy(cRecords[nNum].cChoice2, chars);
@@ -177,7 +165,6 @@ void importRecords(struct records cRecords[], int * nNumber) {
         for (j = 0; chars[j] != '\0'; j++) {
           if (chars[j] == '\n') {
             chars[j] = '\0';
-            break;
           }
         }
         strcpy(cRecords[nNum].cChoice3, chars);
@@ -186,7 +173,6 @@ void importRecords(struct records cRecords[], int * nNumber) {
           for (j = 0; chars[j] != '\0'; j++) {
             if (chars[j] == '\n') {
               chars[j] = '\0';
-              break;
             }
           }
           strcpy(cRecords[nNum].cAnswer, chars);
@@ -212,7 +198,6 @@ void assignTopicNumbers(struct records cRecords[], int * nNumber) {
     for (j = i - 1; j >= 0; j--) {
       if (strcmp(cRecords[i].cTopic1, cRecords[j].cTopic1) == 0) {
         isUnique = 0;
-        break;
       }
     }
     if (isUnique) {
@@ -323,7 +308,6 @@ int pPassValid() {
         scanf("%d", & nChoice);
         if (nChoice == 1) {
           system("cls");
-          break;
         } else if (nChoice == 2) {
           system("cls");
           return 0;
@@ -405,7 +389,6 @@ void editRecord(struct records cRecords[], int * nNumber) {
     for (j = i - 1; j >= 0; j--) {
       if (strcmp(cRecords[i].cTopic1, cRecords[j].cTopic1) == 0) {
         isUnique = 0;
-        break;
       }
     }
     if (isUnique) {
@@ -499,7 +482,6 @@ void editRecord(struct records cRecords[], int * nNumber) {
       for (i = 0; newValue[i] != '\0'; i++) {
         if (newValue[i] == '\n') {
           newValue[i] = '\0';
-          break;
         }
       }
     }
@@ -524,7 +506,6 @@ void editRecord(struct records cRecords[], int * nNumber) {
       for (i = 0; newValue[i] != '\0'; i++) {
         if (newValue[i] == '\n') {
           newValue[i] = '\0';
-          break;
         }
       }
     }
@@ -549,7 +530,6 @@ void editRecord(struct records cRecords[], int * nNumber) {
       for (i = 0; newValue[i] != '\0'; i++) {
         if (newValue[i] == '\n') {
           newValue[i] = '\0';
-          break;
         }
       }
     }
@@ -574,7 +554,6 @@ void editRecord(struct records cRecords[], int * nNumber) {
       for (i = 0; newValue[i] != '\0'; i++) {
         if (newValue[i] == '\n') {
           newValue[i] = '\0';
-          break;
         }
       }
     }
@@ -604,7 +583,6 @@ void deleteRecord(struct records cRecords[], int * nNumber) {
     for (j = i - 1; j >= 0; j--) {
       if (strcmp(cRecords[i].cTopic1, cRecords[j].cTopic1) == 0) {
         isUnique = 0;
-        break;
       }
     }
     if (isUnique) {
@@ -698,7 +676,6 @@ int mData(struct records cRecords[], int * nNumber) {
         for (i = 0; strInput[i] != '\0'; i++) {
           if (strInput[i] == '\n') {
             strInput[i] = '\0';
-            break;
           }
         }
         printf("Input the answer to the question: ");
@@ -762,7 +739,6 @@ void Play(struct records cRecords[], int * nNumber) {
         for (j = i - 1; j >= 0; j--) {
           if (strcmp(cRecords[i].cTopic1, cRecords[j].cTopic1) == 0) {
             isUnique = 0;
-            break;
           }
         }
         if (isUnique) {
