@@ -290,7 +290,7 @@ int menu() {
 
 int pPassValid() {
   char cPass[11] = "", cKey[10] = "AdminPass", cAdd[11], ch;
-  int i = 0, j, nAsterisks = 0, nChoice = 0; // Initialize nChoice to 0
+  int i = 0, j, nAsterisks = 0, nChoice = 0; 
   do {
     printf("*****Manage Data*****\n");
     printf("Input Password (9): ");
@@ -410,8 +410,13 @@ void editRecord(struct records cRecords[], int * nNumber) {
     }
   }
 
-  printf("Choose a topic to edit: ");
-  scanf("%d", & topicNum);
+  while (topicNum < 1 || topicNum > currNum - 1) {
+    printf("Choose a topic to delete: ");
+    scanf("%d", & topicNum);
+    if (topicNum < 1 || topicNum > currNum - 1) {
+      printf("Invalid input. Please choose a valid topic number.\n");
+    }
+  }
 
   topicNum = matchingTopics[topicNum - 1];
 
@@ -427,8 +432,13 @@ void editRecord(struct records cRecords[], int * nNumber) {
     printf("[%d] %s\n", i + 1, cRecords[matchingRecords[i]].cQuestion1);
   }
 
-  printf("Choose a record to edit: ");
-  scanf("%d", & choice);
+  while (choice < 1 || choice > numMatches) {
+    printf("Choose a record to delete: ");
+    scanf("%d", & choice);
+    if (choice < 1 || choice > numMatches) {
+      printf("Invalid input. Please choose a valid record number.\n");
+    }
+  }
   recordNum = matchingRecords[choice - 1];
   system("cls");
   printf("Current Record:\n");
@@ -446,7 +456,7 @@ void editRecord(struct records cRecords[], int * nNumber) {
   printf("[4] Choice 2\n");
   printf("[5] Choice 3\n");
   printf("[6] Answer\n");
-  printf("Enter field nNum: ");
+  printf("Enter field number: ");
   scanf("%d", & fieldNum);
   getchar();
   printf("Enter new value: ");
@@ -599,8 +609,13 @@ void deleteRecord(struct records cRecords[], int * nNumber) {
     }
   }
 
-  printf("Choose a topic to delete: ");
-  scanf("%d", & topicNum);
+  while (topicNum < 1 || topicNum > currNum - 1) {
+    printf("Choose a topic to delete: ");
+    scanf("%d", & topicNum);
+    if (topicNum < 1 || topicNum > currNum - 1) {
+      printf("Invalid input. Please choose a valid topic number.\n");
+    }
+  }
   system("cls");
   topicNum = matchingTopics[topicNum - 1];
 
@@ -616,8 +631,13 @@ void deleteRecord(struct records cRecords[], int * nNumber) {
     printf("[%d] %s\n", i + 1, cRecords[matchingRecords[i]].cQuestion1);
   }
 
-  printf("Choose a record to delete: ");
-  scanf("%d", & choice);
+  while (choice < 1 || choice > numMatches) {
+    printf("Choose a record to delete: ");
+    scanf("%d", & choice);
+    if (choice < 1 || choice > numMatches) {
+      printf("Invalid input. Please choose a valid record number.\n");
+    }
+  }
   recordNum = matchingRecords[choice - 1];
 
   for (i = 0; i < * nNumber; i++) {
@@ -695,9 +715,6 @@ int mData(struct records cRecords[], int * nNumber) {
         ExportRecords(cRecords, nNumber);
       }
     } while (nAct != 6);
-}
-void answeredRecord(struct records cRecords[], int * nNumber) {
-
 }
 
 void Play(struct records cRecords[], int * nNumber) {
