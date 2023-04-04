@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <conio.h>
 
 typedef char cTopic[40];
 typedef char cChoice[30];
@@ -214,30 +215,36 @@ int menu (){
     return 0;
 }
 
-int pPassValid (){
-    char cPass[11] = "", cKey[10] = "AdminPass", cAdd[11];
-    int i, j, nAsterisks = 0;
-    fflush(stdin);
+int pPassValid() {
+    char cPass[11] = "", cKey[10] = "AdminPass", cAdd[11], ch;
+    int i = 0, j, nAsterisks = 0;
+
+    printf("*****Manage Data*****\n");
     do {
-        printf("*****Manage Data*****");
-        printf("\nInput Password (9): ");
-        for (j=0; j<nAsterisks; j++)
-            printf("*");
-        scanf("%s", cAdd);
-        nAsterisks += strlen(cAdd);
-        strcat(cPass,cAdd);
-        system("cls"); 
-        if (strlen(cPass) >= 9) {
-            if (strcmp(cKey, cPass) == 0) {
-                return 1;
+        printf("Input Password (9): ");
+        i = 0;
+        while ((ch = _getch()) != '\r') { // use '\r' instead of "\n" to read the carriage return character
+            if (ch == '\b') { // handle backspace
+                if (i > 0) {
+                    i--;
+                    printf("\b \b");
+                }
+            } else if (i < 9) { 
+                cPass[i] = ch;
+                i++;
+                printf("*");
             }
-            for (i=0; i<11; i++)
-                cPass[i] = '\0';
-            nAsterisks = 0;
+        }
+        cPass[i] = '\0'; 
+
+        if (strcmp(cPass, cKey) == 0) {
+            printf("\nAccess Granted.\n");
+            return 1;
+        } else {
+            printf("\nIncorrect password. Try again.\n");
         }
     } while (1);
 }
-
 
 int checkRecord(struct records cRecords[], char strInput[], char Answer[]) {
     int i;
