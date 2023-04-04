@@ -318,39 +318,74 @@ int pPassValid() {
     } while (1);
 }
 
-int checkRecord(struct records cRecords[], char strInput[], char Answer[]) {
+int checkRecord(struct records cRecords[], char strInput[], char Answer[], int *Number) {
     int i;
-    for (i = 0; i < 7; i++) {
-        if (strcmp(strInput, cRecords[i].cQuestion1) == 0 && strcmp(Answer, cRecords[i].cAnswer))
-			return 1;
-		else
-			return 0;
-	}
-	return 0;
+    for (i = 0; i < *Number; i++) {
+        if (strcmp(strInput, cRecords[i].cQuestion1) == 0 && strcmp(Answer, cRecords[i].cAnswer) == 0)
+            return 1;
+    }
+    return 0;
 }
 
-void inputRecord (struct records cRecords[], int Number, char strInput[], char Answer[]){
-		printf("Input the topic of the problem: ");
-			scanf("%s", cRecords[Number].cTopic1);
-			getchar();
-		printf("Enter The first choice: ");
-			scanf("%s", cRecords[Number].cChoice1);
-			getchar();
-		printf("Enter the second choice: ");
-			scanf("%s", cRecords[Number].cChoice2);
-			getchar();
-		printf("Enter the third choice: ");
-			scanf("%s", cRecords[Number].cChoice3); 
-			getchar();
-			strcpy(cRecords[Number].cQuestion1, strInput);
-			strcpy(cRecords[Number].cAnswer, Answer);
-		Number++;
+void inputRecord (struct records cRecords[], int Number, char strInput[], char Answer[]) {
+    if (cRecords[Number].cTopic1[0] == '\0') {
+        printf("Input the topic of the problem: ");
+        scanf("%s", cRecords[Number].cTopic1);
+    }
+    system("cls");
+    printf("Input a question: %s\n", strInput);
+    printf("Input the answer to the question: %s\n", Answer);
+    printf("Input the topic of the problem: %s\n", cRecords[Number].cTopic1);
+
+    do {
+    	    system("cls");
+    	printf("Input a question: %s\n", strInput);
+    	printf("Input the answer to the question: %s\n", Answer);
+    	printf("Input the topic of the problem: %s\n", cRecords[Number].cTopic1);
+        printf("Enter the first choice: ");
+        scanf("%s", cRecords[Number].cChoice1);
+        printf("Enter the second choice: ");
+        scanf("%s", cRecords[Number].cChoice2);
+        printf("Enter the third choice: ");
+        scanf("%s", cRecords[Number].cChoice3);
+
+        if (strcmp(cRecords[Number].cChoice1, cRecords[Number].cChoice2) == 0 ||
+            strcmp(cRecords[Number].cChoice1, cRecords[Number].cChoice3) == 0 ||
+            strcmp(cRecords[Number].cChoice2, cRecords[Number].cChoice3) == 0) {
+            printf("Choices must be unique. Please enter valid choices.\n");
+            system("pause");
+            system("cls");
+        }
+    } while (strcmp(cRecords[Number].cChoice1, cRecords[Number].cChoice2) == 0 ||
+             strcmp(cRecords[Number].cChoice1, cRecords[Number].cChoice3) == 0 ||
+             strcmp(cRecords[Number].cChoice2, cRecords[Number].cChoice3) == 0);
+
+    if (strcmp(cRecords[Number].cChoice1, Answer) != 0 &&
+        strcmp(cRecords[Number].cChoice2, Answer) != 0 &&
+        strcmp(cRecords[Number].cChoice3, Answer) != 0) {
+        printf("The answer is not in the choices. Please input valid choices.\n");
+        system("pause");
+        system("cls");
+        inputRecord(cRecords, Number, strInput, Answer);
+        return;
+    }
+
+    strcpy(cRecords[Number].cQuestion1, strInput);
+    strcpy(cRecords[Number].cAnswer, Answer);
+    Number++;
 }
+
+
 
 void editRecord(struct records cRecords[], int *Number) {
 	int i, j, choice = '\0', recordNum, fieldNum, topicNum, matchingTopics[100], matchingRecords[100], numMatches = 0;
 	int topicCount = 0, currNum = 1;
     char topic[20], newValue[150];
+    if (*Number == 0) {
+        printf("There are currently no records.\n");
+        system("pause");
+        return;
+    }
 system("cls");
 printf("Available Topics:\n");
 for (i = 0; i < *Number; i++) {
@@ -442,6 +477,11 @@ void deleteRecord(struct records cRecords[], int *Number) {
     int i, j, choice = '\0', recordNum, fieldNum, topicNum, matchingTopics[100], matchingRecords[100], numMatches = 0;;
 	int topicCount = 0, currNum = 1;
     char topic[20];
+    if (*Number == 0) {
+        printf("There are currently no records.\n");
+        system("pause");
+        return;
+    }
 system("cls");
 printf("Available Topics:\n");
 for (i = 0; i < *Number; i++) {
@@ -538,8 +578,10 @@ int mData(struct records cRecords[], int *Number){
 			    } 
 		printf("Input the answer to the question: " );
 		scanf("%s", Answer);
-		if (checkRecord(cRecords, strInput, Answer) == 1)
-			printf("It is already listed");
+		if (checkRecord(cRecords, strInput, Answer, Number) == 1){
+			printf("It is already listed\n");
+			system("pause");	
+		}
 		else{
 			inputRecord (cRecords, *Number, strInput, Answer);
 		}
@@ -561,6 +603,12 @@ void Play(struct records cRecords[], int* Number) {
     char ans[30];
     int Continue = 1, Return, nNum = 0;
 	playerCount(cPlayers, &pCount);
+	if (*Number == 0) {
+		system("cls");
+        printf("There are currently no records.\n");
+        system("pause");
+        return;
+    }
     printf("Input Player Name: ");
     scanf("%s", cPlayers[pCount].pName);
     system("cls");
