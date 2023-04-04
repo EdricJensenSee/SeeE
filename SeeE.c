@@ -237,7 +237,7 @@ void exportRecords(struct records cRecords[], int * nNumber) {
       printf("Invalid file name. Please try again\nExport File:");
     }
   } while (Data == NULL);
-
+	
   assignTopicNumbers(cRecords, nNumber);
   for (i = 0; i < * nNumber; i++) {
     fprintf(Data, "%s\n", cRecords[i].cTopic1);
@@ -303,17 +303,20 @@ int pPassValid() {
       printf("\nAccess Granted.\n");
       return 1;
     } else {
-      while (nChoice != 2) {
+		{
         printf("\n\nINCORRECT PASSWORD\n\n[1]Retry\n[2]Return to main menu\n\nInput Choice: ");
         scanf("%d", & nChoice);
-        if (nChoice == 1) {
+        switch (nChoice){
+        case 1:
           system("cls");
-        } else if (nChoice == 2) {
-          system("cls");
-          return 0;
+          break;  
+		case 2:
+		  system("cls");
+          return 0;   
+		  break; 	
+		}
         }
       }
-    }
   } while (1);
 }
 
