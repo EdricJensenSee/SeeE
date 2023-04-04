@@ -168,7 +168,14 @@ void ExportRecords(struct records cRecords[], int *Number) {
         fprintf(Data, "%d\n", cRecords[i].nNumber); 
         fprintf(Data, "%s", cRecords[i].cQuestion1);
         fprintf(Data, "%s%s%s", cRecords[i].cChoice1, cRecords[i].cChoice2, cRecords[i].cChoice3);
-        fprintf(Data, "%s\n", cRecords[i].cAnswer);
+        fprintf(Data, "%s\n\n", cRecords[i].cAnswer);
+        
+        strcpy(cRecords[i].cTopic1, "");
+        strcpy(cRecords[i].cQuestion1, "");
+        strcpy(cRecords[i].cChoice1, "");
+        strcpy(cRecords[i].cChoice2, "");
+        strcpy(cRecords[i].cChoice3, "");
+        strcpy(cRecords[i].cAnswer, "");
     }
     fclose(Data); 
 }
@@ -244,13 +251,14 @@ void inputRecord (struct records cRecords[], int Number, char strInput[], char A
 			scanf("%s", cRecords[Number].cChoice3); 
 			strcpy(cRecords[Number].cQuestion1, strInput);
 			strcpy(cRecords[Number].cAnswer, Answer);
+		Number++;
 }
 
 void editRecord(struct records cRecords[], int *Number) {
 	int i, j, choice = '\0', recordNum, fieldNum, topicNum, matchingTopics[100], matchingRecords[100], numMatches = 0;
 	int topicCount = 0, currNum = 1;
     char topic[20], newValue[150];
-
+system("cls");
 printf("Available Topics:\n");
 for (i = 0; i < *Number; i++) {
     int isUnique = 1;
@@ -278,7 +286,7 @@ for (i = 0; i < *Number; i++) {
         matchingRecords[numMatches++] = i;
     }
 }
-
+system("cls");
 printf("\nRecords in %s\n", cRecords[topicNum].cTopic1);
 for (i = 0; i < numMatches; i++) {
     printf("[%d] %s\n", i+1, cRecords[matchingRecords[i]].cQuestion1);
@@ -287,7 +295,7 @@ for (i = 0; i < numMatches; i++) {
 printf("Choose a record to edit: ");
 scanf("%d", &choice);
 recordNum = matchingRecords[choice - 1];
-
+system("cls");
 printf("\nCurrent Record:\n");
 printf("Topic: %s\n", cRecords[recordNum].cTopic1);
 printf("Question: %s\n", cRecords[recordNum].cQuestion1);
@@ -319,8 +327,9 @@ switch (fieldNum) {
         break;
     case 3:
         strcpy(cRecords[recordNum].cChoice1, newValue);
+        break;
     case 4:
-         strcpy(cRecords[recordNum].cChoice2, newValue);
+        strcpy(cRecords[recordNum].cChoice2, newValue);
         break;
     case 5:
 		strcpy(cRecords[recordNum].cChoice3, newValue);
@@ -340,7 +349,7 @@ void deleteRecord(struct records cRecords[], int *Number) {
     int i, j, choice = '\0', recordNum, fieldNum, topicNum, matchingTopics[100], matchingRecords[100], numMatches = 0;;
 	int topicCount = 0, currNum = 1;
     char topic[20];
-
+system("cls");
 printf("Available Topics:\n");
 for (i = 0; i < *Number; i++) {
     int isUnique = 1;
@@ -359,7 +368,7 @@ for (i = 0; i < *Number; i++) {
 
 printf("Choose a topic to delete: ");
 scanf("%d", &topicNum);
-
+system("cls");
 topicNum = matchingTopics[topicNum - 1];
 
 numMatches = 0;
@@ -434,6 +443,7 @@ int mData(struct records cRecords[], int *Number){
 		else{
 			inputRecord (cRecords, *Number, strInput, Answer);
 		}
+		numCount (cRecords, Number);
 	} else if (nAct == 2){	
 		editRecord (cRecords, Number);
 	} else if (nAct == 3){
@@ -443,20 +453,29 @@ int mData(struct records cRecords[], int *Number){
 	} else if (nAct == 5){
 		ExportRecords (cRecords, Number);
 	} 
-	} while (nAct >0 && nAct <6);
+	} while (nAct != 6);
 }
 
 void Play(struct records cRecords[], int* Number) {
     int i, j, currNum, randNum, pCount, recordNum, fieldNum, topicNum, matchingTopics[100], matchingRecords[100], numMatches = 0;
     char ans[30];
-    int Continue = 1, Return;
+    int Continue = 1, Return, nNum = 0;
 	playerCount(cPlayers, &pCount);
     printf("Input Player Name: ");
     scanf("%s", cPlayers[pCount].pName);
+    system("cls");
+    printf("[1] Start\n[2] End Game\n\nEnter Course of Action: ");
+    scanf("%d", &Return);
     getchar();
     do{
-    	printf("[1] Continue\n[2] End Game");
-    	scanf("%d", &Return);
+    	system("cls");
+    	    if (nNum == 1){
+    			printf("Current Points: %d\n\n[1] Continue\n[2] End Game\n\nEnter Course of Action: ", cPlayers[pCount].pScore);
+    			scanf("%d", &Return);
+    			if (Return == 1)
+    				nNum = 0;
+    			system("cls");
+			}
     	if (Return == 1){
     	numMatches=0;
 		printf("Available Topics:\n");
@@ -486,36 +505,78 @@ void Play(struct records cRecords[], int* Number) {
     	}
     	randNum = rand() % numMatches;
     	system("cls");
-    	printf("Points:%d\nAnswer the Question: %s\n", cPlayers[pCount].pScore, cRecords[matchingRecords[randNum]].cQuestion1);
+    	printf("Points:%d\nAnswer the Question: %s\nAnswer: ", cPlayers[pCount].pScore, cRecords[matchingRecords[randNum]].cQuestion1);
     	scanf("%s", ans);
     	if (strcmp(cRecords[matchingRecords[randNum]].cAnswer, ans) == 0){
+    		nNum = 1;
     		printf("Correct!\n");
     		cPlayers[pCount].pScore+=1;
     		system("pause");
 		} else {
-			printf("Incorrect\n");
+			nNum = 1;
+			printf("Incorrect Answer\n");
 			system("pause");
-		}	
+			printf("\n");
+		}
 	} else {
+		Return = 0;
 		printf("YOUR FINAL SCORE: %d\n", cPlayers[pCount].pScore);
-		Continue = 0;
 		system("pause");
 	}
-	} while (Continue);
+	} while (Return);
 }
 
-	
+Exit(struct players cPlayers[], int *pNumber){
+	FILE *Data;
+    int i;
+    Data = fopen("score.txt", "a");
+
+        fprintf(Data, "\n\n%s\n", cPlayers[*pNumber-1].pName);
+        fprintf(Data, "%d", cPlayers[*pNumber-1].pScore); 
+
+    fclose(Data); 
+}
+
+void ViewScores(struct players cPlayers[], int *pNumber) {
+	system("cls");
+	int i;
+    for (i = 0; i < *pNumber; i++) {
+        printf("Player Name: %s\nScore: %d\n\n", cPlayers[i].pName, cPlayers[i].pScore);
+    }
+    system("pause");
+}
+
+void importScores(struct players cPlayers[]) {
+    FILE *Data;
+    char name[30];
+    int score, i = 0;
+    Data = fopen("score.txt", "r");
+    
+    while (fscanf(Data, "%s%d", name, &score) == 2) {
+        strcpy(cPlayers[i].pName, name);
+        cPlayers[i].pScore = score;
+        i++;
+    }
+    fclose(Data);
+}
+
 void pPlay(struct records cRecords[], int *Number){
-	int nDirection;
-	printf("[1] Play\n[2] View Scores\n[3] Exit\n\nInput Direction of Activity:");	
+	int nDirection, pNumber;
+	importScores(cPlayers);
+	while (nDirection != 3){
+	playerCount(cPlayers, &pNumber);
+	system("cls");
+	printf("[1] Play\n[2] View Scores\n[3] Exit\n\nInput Direction of Activity: ");	
 	scanf("%d", &nDirection);
 	if (nDirection == 1 ){
 		Play(cRecords, Number);
 	} else if (nDirection == 2){
-		
+		ViewScores(cPlayers, &pNumber);
 	} else if (nDirection ==3){
-		
+		Exit (cPlayers, &pNumber);
+	}		
 	}
+
 }
 
 int main (){
