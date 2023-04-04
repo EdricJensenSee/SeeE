@@ -717,19 +717,20 @@ void Play(struct records cRecords[], int * nNumber) {
   scanf("%d", & Return);
   getchar();
   do {
-  	if ( * nNumber == 0) {
-    system("cls");
-    printf("There are no records left.\n");
-    system("pause");
-    Return = 0;
-    nNum = 0;
+    if ( * nNumber == 0) {
+      system("cls");
+      printf("There are no records left.\n");
+      system("pause");
+      Return = 0;
+      nNum = 0;
     }
+    numMatches = 0;
     currNum = 0;
     if (nNum == 1) {
       printf("Current Points: %d\n\n[1] Continue\n[2] End Game\n\nEnter Course of Action: ", cPlayers[pCount].pScore);
       scanf("%d", & Return);
       if (Return == 1)
-      nNum = 0;
+        nNum = 0;
       system("cls");
     }
     if (Return == 1) {
@@ -756,6 +757,7 @@ void Play(struct records cRecords[], int * nNumber) {
         }
       } while (topicNum < 1 || topicNum > currNum);
       topicNum = matchingTopics[topicNum - 1];
+
       numMatches = 0;
       for (i = 0; i < * nNumber; i++) {
         if (strcmp(cRecords[i].cTopic1, cRecords[topicNum].cTopic1) == 0) {
