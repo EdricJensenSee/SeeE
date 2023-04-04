@@ -6,11 +6,8 @@ otherwise plagiarized the work of other students and/or persons.
 Edric Jensen See, DLSU ID# 12210161
 *********************************************************************************************************/
 #include <stdio.h>
-
 #include <string.h>
-
 #include <time.h>
-
 #include <conio.h>
 
 typedef char cTopic[40];
@@ -293,7 +290,7 @@ int menu() {
 
 int pPassValid() {
   char cPass[11] = "", cKey[10] = "AdminPass", cAdd[11], ch;
-  int i = 0, j, nAsterisks = 0;
+  int i = 0, j, nAsterisks = 0, nChoice = 0; // Initialize nChoice to 0
   do {
     printf("*****Manage Data*****\n");
     printf("Input Password (9): ");
@@ -316,9 +313,17 @@ int pPassValid() {
       printf("\nAccess Granted.\n");
       return 1;
     } else {
-      printf("\nIncorrect password. Try again.\n");
-      sleep(1);
-      system("cls");
+      while (nChoice != 2) {
+        printf("\n\nINCORRECT PASSWORD\n\n[1]Retry\n[2]Return to main menu\n\nInput Choice: ");
+        scanf("%d", & nChoice);
+        if (nChoice == 1) {
+          system("cls");
+          break;
+        } else if (nChoice == 2) {
+          system("cls");
+          return 0;
+        }
+      }
     }
   } while (1);
 }
@@ -474,7 +479,7 @@ void editRecord(struct records cRecords[], int * nNumber) {
       printf("Choice 2: %s\n", cRecords[recordNum].cChoice2);
       printf("Choice 3: %s\n", cRecords[recordNum].cChoice3);
       printf("Answer: %s\n\n", cRecords[recordNum].cAnswer);
-      printf("Input valid answer: ");
+      printf("Input valid first choice: ");
       fgets(newValue, 150, stdin);
       for (i = 0; newValue[i] != '\0'; i++) {
         if (newValue[i] == '\n') {
@@ -499,7 +504,7 @@ void editRecord(struct records cRecords[], int * nNumber) {
       printf("Choice 2: %s\n", cRecords[recordNum].cChoice2);
       printf("Choice 3: %s\n", cRecords[recordNum].cChoice3);
       printf("Answer: %s\n\n", cRecords[recordNum].cAnswer);
-      printf("Input valid answer: ");
+      printf("Input valid second choice: ");
       fgets(newValue, 150, stdin);
       for (i = 0; newValue[i] != '\0'; i++) {
         if (newValue[i] == '\n') {
@@ -524,7 +529,7 @@ void editRecord(struct records cRecords[], int * nNumber) {
       printf("Choice 2: %s\n", cRecords[recordNum].cChoice2);
       printf("Choice 3: %s\n", cRecords[recordNum].cChoice3);
       printf("Answer: %s\n\n", cRecords[recordNum].cAnswer);
-      printf("Input valid answer: ");
+      printf("Input valid third choice: ");
       fgets(newValue, 150, stdin);
       for (i = 0; newValue[i] != '\0'; i++) {
         if (newValue[i] == '\n') {
@@ -773,7 +778,7 @@ void Play(struct records cRecords[], int * nNumber) {
         strcpy(cRecords[ * nNumber - 1].cChoice2, "");
         strcpy(cRecords[ * nNumber - 1].cChoice3, "");
         strcpy(cRecords[ * nNumber - 1].cAnswer, "");
-        ( * nNumber) --;
+        *nNumber--;
       } else {
         nNum = 1;
         printf("Incorrect Answer\n");
