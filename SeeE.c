@@ -65,26 +65,61 @@ void ImportRecords(struct records cRecords[], int *Number) {
     for (i=0; fgets(chars, 150, Data); i++) { 
         if (i < 8) {
             if (i % 7 == 0) {
-            	chars[strcspn(chars, "\n")] = '\0';  
+			    for(j=0; chars[j]!='\0'; j++) {
+			        if(chars[j] == '\n') {
+			            chars[j] = '\0';
+			            break;
+			        }
+			    }  
                 strcpy(cRecords[number].cTopic1, chars);
             } else if (i % 7 == 1) {
-            	chars[strcspn(chars, "\n")] = '\0';  
+			    for(j=0; chars[j]!='\0'; j++) {
+			        if(chars[j] == '\n') {
+			            chars[j] = '\0';
+			            break;
+			        }
+			    }  
                 strcpy(cRecords[number].cNumber, chars);
             } else if (i % 7 == 2) {
-            	chars[strcspn(chars, "\n")] = '\0';  
+			    for(j=0; chars[j]!='\0'; j++) {
+			        if(chars[j] == '\n') {
+			            chars[j] = '\0';
+			            break;
+			        }
+			    }  
                 strcpy(cRecords[number].cQuestion1, chars);
             } else if (i % 7 == 3) {
-            	chars[strcspn(chars, "\n")] = '\0';  
+			    for(j=0; chars[j]!='\0'; j++) {
+			        if(chars[j] == '\n') {
+			            chars[j] = '\0';
+			            break;
+			        }
+			    }   
                 strcpy(cRecords[number].cChoice1, chars);    
             } else if (i % 7 == 4) {
-            	chars[strcspn(chars, "\n")] = '\0';  
+			    for(j=0; chars[j]!='\0'; j++) {
+			        if(chars[j] == '\n') {
+			            chars[j] = '\0';
+			            break;
+			        }
+			    }   
                 strcpy(cRecords[number].cChoice2, chars);        
             } else if (i % 7 == 5) {
-            	chars[strcspn(chars, "\n")] = '\0';  
+			    for(j=0; chars[j]!='\0'; j++) {
+			        if(chars[j] == '\n') {
+			            chars[j] = '\0';
+			            break;
+			        }
+			    }  
                 strcpy(cRecords[number].cChoice3, chars);            
             } else if (i % 7 == 6) {
                 if (chars[0] != '\n') {
-             	chars[strcspn(chars, "\n")] = '\0';
+			    for(j=0; chars[j]!='\0'; j++) {
+			        if(chars[j] == '\n') {
+			            chars[j] = '\0';
+			            break;
+			        }
+			    }  
                 strcpy(cRecords[number].cAnswer, chars);        
                 number++;               	
 				}
@@ -93,32 +128,67 @@ void ImportRecords(struct records cRecords[], int *Number) {
             }
         } else {
             if (i % 8 == 0) {
-            	chars[strcspn(chars, "\n")] = '\0';  
+			    for(j=0; chars[j]!='\0'; j++) {
+			        if(chars[j] == '\n') {
+			            chars[j] = '\0';
+			            break;
+			        }
+			    }   
                 strcpy(cRecords[number].cTopic1, chars);
             }
             else if (i%8 == 1){
-            	chars[strcspn(chars, "\n")] = '\0';  
+			    for(j=0; chars[j]!='\0'; j++) {
+			        if(chars[j] == '\n') {
+			            chars[j] = '\0';
+			            break;
+			        }
+			    }  
                 strcpy(cRecords[number].cNumber, chars);
             }
             else if (i%8 == 2) {
-            	chars[strcspn(chars, "\n")] = '\0';  
+			    for(j=0; chars[j]!='\0'; j++) {
+			        if(chars[j] == '\n') {
+			            chars[j] = '\0';
+			            break;
+			        }
+			    }  
                 strcpy(cRecords[number].cQuestion1, chars);
             }   
             else if (i%8 == 3) {
-            	chars[strcspn(chars, "\n")] = '\0';  
+			    for(j=0; chars[j]!='\0'; j++) {
+			        if(chars[j] == '\n') {
+			            chars[j] = '\0';
+			            break;
+			        }
+			    }  
                 strcpy(cRecords[number].cChoice1, chars);    
             }
             else if (i%8 == 4) {
-            	chars[strcspn(chars, "\n")] = '\0';  
+			    for(j=0; chars[j]!='\0'; j++) {
+			        if(chars[j] == '\n') {
+			            chars[j] = '\0';
+			            break;
+			        }
+			    }   
                 strcpy(cRecords[number].cChoice2, chars);        
             }
             else if (i%8 == 5) {
-            	chars[strcspn(chars, "\n")] = '\0';  
+			    for(j=0; chars[j]!='\0'; j++) {
+			        if(chars[j] == '\n') {
+			            chars[j] = '\0';
+			            break;
+			        }
+			    }   
                 strcpy(cRecords[number].cChoice3, chars);  
             }
             else if (i%8 == 6) {
                 if (chars[0] != '\n') {
-					chars[strcspn(chars, "\n")] = '\0';   
+			    for(j=0; chars[j]!='\0'; j++) {
+			        if(chars[j] == '\n') {
+			            chars[j] = '\0';
+			            break;
+			        }
+			    }                  	
 					strcpy(cRecords[number].cAnswer, chars);        
                     number++;
 				}
@@ -242,6 +312,8 @@ int pPassValid() {
             return 1;
         } else {
             printf("\nIncorrect password. Try again.\n");
+            sleep(1);
+			system("cls");
         }
     } while (1);
 }
@@ -458,7 +530,12 @@ int mData(struct records cRecords[], int *Number){
 		if(nAct == 1){
 		printf("Input a question: ");
 		fgets (strInput, 150, stdin);
-		strInput[strcspn(strInput, "\n")] = '\0';  
+			    for(i=0; strInput[i]!='\0'; i++) {
+			        if(strInput[i] == '\n') {
+			            strInput[i] = '\0';
+			            break;
+			        }
+			    } 
 		printf("Input the answer to the question: " );
 		scanf("%s", Answer);
 		if (checkRecord(cRecords, strInput, Answer) == 1)
