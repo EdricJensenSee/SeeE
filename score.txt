@@ -1,23 +1,11 @@
-Edric
-1
-
-Shaira
-2
+Shay
+10
 
 Maverick
 5
 
-Shay
-10
-
-EdricSee
-1
-
 Hello
 3
 
-Helo
+Shaira
 2
-
-asa
-1

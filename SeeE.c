@@ -696,24 +696,37 @@ void Play(struct records cRecords[], int* Number) {
 void Exit(struct players cPlayers[], int *pNumber){
     FILE *Data;
     int i;
-    Data = fopen("score.txt", "a");
-
-    fprintf(Data, "\n\n%s\n", cPlayers[*pNumber-1].pName);
-    fprintf(Data, "%d", cPlayers[*pNumber-1].pScore); 
-
+    Data = fopen("score.txt", "w");
+	for (i = 0; i< *pNumber; i++){
+		fprintf(Data, "%s\n", cPlayers[i].pName);
+    	fprintf(Data, "%d\n\n", cPlayers[i].pScore); 
+	}
     fclose(Data);
-
     *pNumber--;
 }
 
 void ViewScores(struct players cPlayers[], int *pNumber) {
-	system("cls");
-	int i;
+    system("cls");
+    int i, j, tempScore;
+    char tempName[30];
+    for (i = 0; i < *pNumber - 1; i++) {
+        for (j = 0; j < *pNumber - i - 1; j++) {
+            if (cPlayers[j].pScore < cPlayers[j + 1].pScore) {
+                tempScore = cPlayers[j].pScore;
+                cPlayers[j].pScore = cPlayers[j + 1].pScore;
+                cPlayers[j + 1].pScore = tempScore;
+                strcpy(tempName, cPlayers[j].pName);
+                strcpy(cPlayers[j].pName, cPlayers[j + 1].pName);
+                strcpy(cPlayers[j + 1].pName, tempName);
+            }
+        }
+    }
     for (i = 0; i < *pNumber; i++) {
         printf("Player Name: %s\nScore: %d\n\n", cPlayers[i].pName, cPlayers[i].pScore);
     }
     system("pause");
 }
+
 
 void importScores(struct players cPlayers[]) {
     FILE *Data;
