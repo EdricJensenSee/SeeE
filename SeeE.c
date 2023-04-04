@@ -369,7 +369,6 @@ void inputRecord (struct records cRecords[], int Number, char strInput[], char A
         inputRecord(cRecords, Number, strInput, Answer);
         return;
     }
-
     strcpy(cRecords[Number].cQuestion1, strInput);
     strcpy(cRecords[Number].cAnswer, Answer);
     Number++;
@@ -674,15 +673,17 @@ void Play(struct records cRecords[], int* Number) {
 	} while (Return);
 }
 
-Exit(struct players cPlayers[], int *pNumber){
-	FILE *Data;
+void Exit(struct players cPlayers[], int *pNumber){
+    FILE *Data;
     int i;
     Data = fopen("score.txt", "a");
 
-        fprintf(Data, "\n\n%s\n", cPlayers[*pNumber-1].pName);
-        fprintf(Data, "%d", cPlayers[*pNumber-1].pScore); 
+    fprintf(Data, "\n\n%s\n", cPlayers[*pNumber-1].pName);
+    fprintf(Data, "%d", cPlayers[*pNumber-1].pScore); 
 
-    fclose(Data); 
+    fclose(Data);
+
+    *pNumber--;
 }
 
 void ViewScores(struct players cPlayers[], int *pNumber) {
