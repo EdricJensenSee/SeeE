@@ -856,6 +856,11 @@ void ViewScores(struct players cPlayers[], int * pNumber) {
   system("cls");
   int i, j, tempScore;
   char tempName[30];
+    if (*pNumber == 0) {
+    printf("There are no players to display.\n");
+    system("pause");
+    return;
+  }
   for (i = 0; i < * pNumber - 1; i++) {
     for (j = 0; j < * pNumber - i - 1; j++) {
       if (cPlayers[j].pScore < cPlayers[j + 1].pScore) {
@@ -902,7 +907,11 @@ void pPlay(struct records cRecords[], int * nNumber) {
       ViewScores(cPlayers, & pNumber);
     } else if (nDirection == 3) {
       Exit(cPlayers, & pNumber);
-    }
+    } else{
+     	printf("Invalid input. Please input a valid number\n");
+    	system("pause");   	
+	}
+
   }
 }
 
