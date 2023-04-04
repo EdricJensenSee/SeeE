@@ -56,7 +56,7 @@ int playerCount(struct players cPlayers[], int * pNumber) {
   * pNumber = nNum;
 }
 
-void ImportRecords(struct records cRecords[], int * nNumber) {
+void importRecords(struct records cRecords[], int * nNumber) {
   int i, j, counter = 0;
   int nNum = * nNumber;
   char chars[150], fileName[50];
@@ -235,10 +235,15 @@ void assignTopicNumbers(struct records cRecords[], int * nNumber) {
   }
 }
 
-void ExportRecords(struct records cRecords[], int * nNumber) {
+void exportRecords(struct records cRecords[], int * nNumber) {
   FILE * Data;
   char fileName[50];
   int i;
+    if ( * nNumber == 0) {
+    printf("There are currently no records.\n");
+    system("pause");
+    return;
+  }
   printf("Export file: ");
   do {
     scanf("%s", fileName);
@@ -710,9 +715,9 @@ int mData(struct records cRecords[], int * nNumber) {
       } else if (nAct == 3) {
         deleteRecord(cRecords, nNumber);
       } else if (nAct == 4) {
-        ImportRecords(cRecords, nNumber);
+        importRecords(cRecords, nNumber);
       } else if (nAct == 5) {
-        ExportRecords(cRecords, nNumber);
+        exportRecords(cRecords, nNumber);
       }
     } while (nAct != 6);
 }
@@ -726,7 +731,7 @@ void Play(struct records cRecords[], int * nNumber) {
     system("cls");
     printf("There are currently no records.\n");
     system("pause");
-    return;
+    return; 	
   }
   printf("Input Player Name: ");
   scanf("%s", cPlayers[pCount].pName);
@@ -812,22 +817,11 @@ void Play(struct records cRecords[], int * nNumber) {
 
 void Exit(struct players cPlayers[], int * pNumber) {
   FILE * Data;
-  int i;
-  Data = fopen("score.txt", "w");
-  for (i = 0; i < * pNumber; i++) {
-    fprintf(Data, "%s\n", cPlayers[i].pName);
-    fprintf(Data, "%d\n\n", cPlayers[i].pScore);
-  }
-  fclose(Data);
-  * pNumber--;
-}
-
-void ViewScores(struct players cPlayers[], int * pNumber) {
-  system("cls");
   int i, j, tempScore;
   char tempName[30];
-  for (i = 0; i < * pNumber - 1; i++) {
-    for (j = 0; j < * pNumber - i - 1; j++) {
+  Data = fopen("score.txt", "w");
+  for (i = 0; i < *pNumber - 1; i++) {
+    for (j = 0; j < *pNumber - i - 1; j++) {
       if (cPlayers[j].pScore < cPlayers[j + 1].pScore) {
         tempScore = cPlayers[j].pScore;
         cPlayers[j].pScore = cPlayers[j + 1].pScore;
@@ -838,6 +832,17 @@ void ViewScores(struct players cPlayers[], int * pNumber) {
       }
     }
   }
+  for (i = 0; i < * pNumber; i++) {
+    fprintf(Data, "%s\n", cPlayers[i].pName);
+    fprintf(Data, "%d\n\n", cPlayers[i].pScore);
+  }
+  fclose(Data);
+  *pNumber--;
+}
+
+void ViewScores(struct players cPlayers[], int * pNumber) {
+  system("cls");
+  int i;
   for (i = 0; i < * pNumber; i++) {
     printf("RANK: %d\nPlayer Name: %s\nScore: %d\n\n", i + 1, cPlayers[i].pName, cPlayers[i].pScore);
   }
