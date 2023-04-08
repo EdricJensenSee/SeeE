@@ -22,19 +22,13 @@ How many legs does a spider have?
 10
 8
 
-Personalities
-1
-Who believed that leaking a bucket of ice water out on his head before composing music stimulates brain activity?
-Beethoven
-Handel
-List
-
-Personalities
-2
-Whose real name is Norma Jean Mortenson?
-Madonna
-LadyGaga
-MarilynMonroe
+Animal
+3
+How many legs does a fly have?
+6
+8
+10
+6
 
 Entertainment
 1
@@ -61,9 +55,10 @@ Australia
 Australia
 
 Animal
-3
+4
 The unicorn is the national animal of which country?
 Ireland
 Scotland
 Finland
 Scotland
+

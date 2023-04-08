@@ -22,6 +22,14 @@ How many legs does a spider have?
 10
 8
 
+Animal
+3
+How many legs does a fly have?
+6
+8
+10
+6
+
 Entertainment
 1
 Which character owns an invisible robot plane?
@@ -47,7 +55,7 @@ Australia
 Australia
 
 Animal
-3
+4
 The unicorn is the national animal of which country?
 Ireland
 Scotland
