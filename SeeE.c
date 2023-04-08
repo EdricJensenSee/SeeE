@@ -6,11 +6,8 @@ otherwise plagiarized the work of other students and/or persons.
 Edric Jensen See, DLSU ID# 12210161
 *********************************************************************************************************/
 #include <stdio.h>
-
 #include <string.h>
-
 #include <time.h>
-
 #include <conio.h>
 
 typedef char cTopic[40]; //The max amount of characters per topic
@@ -542,7 +539,6 @@ void editRecord(struct records cRecords[], int * nNumber) {
       for (i = 0; newValue[i] != '\0'; i++) { //Removes the newline from the input
         if (newValue[i] == '\n') {
           newValue[i] = '\0';
-          break;
         }
       }
     }
@@ -603,7 +599,7 @@ void editRecord(struct records cRecords[], int * nNumber) {
     strcpy(cRecords[recordNum].cChoice2, newValue); //Copies the new input to the second choice
     break;
   case 5: //If the choice inputted removes the answer
-    if (strcmp(cRecords[recordNum].cAnswer, cRecords[recordNum].cChoice1) == 0) {
+    if (strcmp(cRecords[recordNum].cAnswer, cRecords[recordNum].cChoice3) == 0) {
       printf("You can not change this choice as it is the answer, please choose another field\n");
       system("pause");
       break;
@@ -648,6 +644,7 @@ void editRecord(struct records cRecords[], int * nNumber) {
           newValue[i] = '\0';
         }
       }
+  }
       while (checkRecord(cRecords, cRecords[recordNum].cQuestion1, newValue, nNumber) == 1) { //Then it will call checkRecord to see if it is existing
         printf("It is already listed\n"); //If it is, print that it is already listed
         system("pause");
@@ -656,11 +653,9 @@ void editRecord(struct records cRecords[], int * nNumber) {
         for (i = 0; newValue[i] != '\0'; i++) { //Removes the newline from the input
           if (newValue[i] == '\n') {
             newValue[i] = '\0';
-            break;
           }
         }
       }
-    }
     strcpy(cRecords[recordNum].cAnswer, newValue); //Copy the new input to the answer
     break;
   }
